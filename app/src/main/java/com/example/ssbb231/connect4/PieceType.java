@@ -6,5 +6,12 @@ package com.example.ssbb231.connect4;
 
 public enum PieceType
 {
-    BLACK, RED, NONE
+    BLACK("B"), RED("R"), NONE("-");
+
+    private String face;
+
+    PieceType(String face)
+    {
+        this.face = face;
+    }
 }
