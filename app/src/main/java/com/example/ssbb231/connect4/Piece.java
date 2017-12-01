@@ -6,17 +6,27 @@ package com.example.ssbb231.connect4;
 
 public class Piece {
 
-    public enum PieceType {
-        BLACK,
-        RED;
-    }
     //field
-    public PieceType pieceVal;
+    private PieceType pieceVal;
 
-    public PieceType getType() {
+    public PieceType getType()
+    {
         return this.pieceVal;
     }
-    public String toString(){
-        return "";
+
+    public String toString()
+    {
+        if(this.pieceVal == PieceType.BLACK)
+        {
+            return "B";
+        }
+        else if(this.pieceVal == PieceType.RED)
+        {
+            return "R";
+        }
+        else
+        {
+            return "-";
+        }
     }
 }
