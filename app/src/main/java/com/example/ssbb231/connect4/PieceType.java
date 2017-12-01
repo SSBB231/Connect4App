@@ -8,7 +8,7 @@ public enum PieceType
 {
     BLACK("B"), RED("R"), NONE("-");
 
-    private String face;
+    public String face;
 
     PieceType(String face)
     {

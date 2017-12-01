@@ -16,17 +16,6 @@ public class Piece {
 
     public String toString()
     {
-        if(this.pieceVal == PieceType.BLACK)
-        {
-            return "B";
-        }
-        else if(this.pieceVal == PieceType.RED)
-        {
-            return "R";
-        }
-        else
-        {
-            return "-";
-        }
+        return pieceVal.face;
     }
 }
