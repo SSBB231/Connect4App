@@ -182,8 +182,11 @@ public class Board {
     }
 
     /**
-     * What does this do???
-     * @return
+     * This method will assign a numerical value that will describe how good the Board's current state
+     * is for each of the players. Min will be the computer player and Max will be the human player.
+     * So negative numbers are good for the computer and positive numbers are good for the human player.
+     *
+     * @return  This board's utility based on its current state.
      */
     public int utility() {
         return 0;
