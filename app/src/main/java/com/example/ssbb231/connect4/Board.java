@@ -55,18 +55,18 @@ public class Board {
     }
 
 
-//    public String toString() {
-//        StringBuilder builder = new StringBuilder();
-//
-//        for (int i = 0; i < board.length; i++) {
-//            for (int j = 0; j < board[0].length; j++) {
-//                builder.append(String.format("%3s ", board[i][j].toString()));
-//            }
-//            builder.append("\n");
-//        }
-//
-//        return builder.toString();
-//    }
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                builder.append(String.format("%3s ", board[i][j].toString()));
+            }
+            builder.append("\n");
+        }
+
+        return builder.toString();
+    }
 
     public boolean isValidMove(int row, int col)
     {
@@ -131,23 +131,23 @@ public class Board {
         return this.board;
     }
 
-    /**
-     * Return the board as a string
-     * @return - The string representation of the board
-     */
-    public String toString(){
-        String boardStr = "";
-        for(int i = 0; i < numRows; i++){
-            for(int j = 0; j < numCols; j++){
-                boardStr += board[i][j];
-                if(j != (numCols-1)){ //If this is not the last entry in the row
-                    boardStr += ", ";
-                }
-            }
-            boardStr += "\n ";
-        }
-        return boardStr;
-    }
+//    /**
+//     * Return the board as a string
+//     * @return - The string representation of the board
+//     */
+//    public String toString(){
+//        String boardStr = "";
+//        for(int i = 0; i < numRows; i++){
+//            for(int j = 0; j < numCols; j++){
+//                boardStr += board[i][j];
+//                if(j != (numCols-1)){ //If this is not the last entry in the row
+//                    boardStr += ", ";
+//                }
+//            }
+//            boardStr += "\n ";
+//        }
+//        return boardStr;
+//    }
 
     /**
      * isValidMove will differ per put/remove. Will make this for putting for now as users can't remove.
