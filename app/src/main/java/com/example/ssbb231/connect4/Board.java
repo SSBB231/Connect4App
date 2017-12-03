@@ -25,6 +25,7 @@ public class Board {
         this.numCols = 7;
         this.numRows = 6;
 
+
         //Make sure to inailize the board to nulls //remove if not needed
         for(int i = 0; i < 6; i++){
             for(int j = 0; j < 7; j++)
@@ -314,7 +315,7 @@ public class Board {
             }
         }
         //CHECK SOUTH
-        for(int i = row; i < 6; i++){
+        for(int i = row; i < this.numRows; i++){
             if(this.board[i][col].equals(p)){
                 nsCount++;
             }
@@ -328,7 +329,7 @@ public class Board {
         }
 
         // CHECK EAST
-        for(int i = col; i <7;i++){
+        for(int i = col; i <this.numCols;i++){
             if(this.board[row][i].equals(p)){
                 ewCount++;
             }
@@ -348,7 +349,7 @@ public class Board {
         }
 
         //CHECK NORTH EAST
-        for(int i = row,j = col; i >= 0 && j < 7; i--,j++){
+        for(int i = row,j = col; i >= 0 && j < this.numCols; i--,j++){
             if(this.board[i][j].equals(p)){
                 neswCount++;
             }
@@ -357,7 +358,7 @@ public class Board {
             }
         }
         //CHECK SOUTH WEST
-        for(int i = row,j = col; i < 6 && j >= 0; i++,j--){
+        for(int i = row,j = col; i < this.numRows && j >= 0; i++,j--){
             //this check s.w. direction
             if(this.board[i][j].equals(p)){
                 neswCount++;
@@ -381,7 +382,7 @@ public class Board {
             }
         }
         //CHECK SOUTH EAST
-        for(int i = row, j = col; i < 6 && j < 7; i++,j++){
+        for(int i = row, j = col; i < this.numRows && j < this.numCols; i++,j++){
             if(this.board[i][j].equals(p)){
                 nwseCount++;
             }
