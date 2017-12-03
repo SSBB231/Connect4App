@@ -8,13 +8,17 @@ public class Piece {
 
     //field
     private PieceType pieceVal;
-    //constructors
-    public Piece(){
-        this.pieceVal = PieceType.NONE;
+
+    public Piece(PieceType t)
+    {
+        this.pieceVal = t;
     }
-    public Piece(PieceType p){
-        this.pieceVal = p;
+
+    public Piece()
+    {
+        this(PieceType.RED);
     }
+
     public PieceType getType()
     {
         return this.pieceVal;
@@ -25,6 +29,12 @@ public class Piece {
         }
         return false;
     }
+
+    public void setType(PieceType t)
+    {
+        this.pieceVal = t;
+    }
+
     public String toString()
     {
         return pieceVal.face;

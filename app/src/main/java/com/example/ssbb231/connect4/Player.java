@@ -24,14 +24,14 @@ public abstract class Player implements Serializable{
         this.player1 = player1;
     }
 
-    public Player(String name, PieceType pieceType)
+    public Player(String name, PieceType pieceType, boolean isFirst)
     {
-        this(name, 0, 0, pieceType, -1, true);
+        this(name, 0, 0, pieceType, -1, isFirst);
     }
 
     public Player()
     {
-        this("Player 1", PieceType.RED);
+        this("Player 1", PieceType.RED, true);
     }
 
     public String getName() {

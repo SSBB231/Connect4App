@@ -100,13 +100,38 @@ public class Board {
      */
     public void putPiece(int row, int col, Piece p){
         //Put the piece in the appropriate place if it can.
-        if(isValidPut(row, col)) {
+        if(isValidMove(row, col)) {
             this.board[row][col] = p;
             this.filledValues[row] += 1;
         }
         //Check the spaces around the current piece to see if the win conditions are set.
         if(check4InARow(row, col,p))
             this.isWin = true;
+        else
+            this.isWin = false;
+
+    }
+
+    /**
+     * Optimal version of putPiece. Will not create a new Instance of Piece, but rather
+     * just change the type of the Pieces that are already instantiated and in the board.
+     * Place a new piece into the board at the given position.
+     * Checks to see if the user has just won the game as well.
+     * @param row - The row index
+     * @param col - The col index
+     * @param p   - The piece to be passed in
+     */
+    public void putPiece(int row, int col, PieceType p){
+        //Put the piece in the appropriate place if it can.
+        if(isValidMove(row, col)) {
+            this.board[row][col].setType(p);
+            this.filledValues[row] += 1;
+        }
+        //Check the spaces around the current piece to see if the win conditions are set.
+        if(checkWin())
+            this.isWin = true;
+        else
+            this.isWin = false;
 
     }
 
@@ -210,23 +235,42 @@ public class Board {
         }
 
         //Keeps track of how many pieces of the same color are in the same row
-        int sameInARow = 0;
-
-        //Keep track of the mini values that are formed by chains of tiles of same color
-        int currentValue;
+        int sameInARow = 1;
 
         //It is optimal to check the board from bottom to top.
-        for(int i = board.length; i >= 0; i--)
+        for(int i = board.length-1; i >= 0; i--)
         {
-            //Set currentValue to zero to check the current row for triples or quadruples.
-            //For each row, start with a neutral PieceType
-            PieceType previousType = board[i][0].getType();
-            PieceType currentType;
-            for(int j = board[0].length; j >= 0; j--)
+            PieceType currentType, previousType;
+
+            for(int j = board[0].length-2; j >= 0; j--)
             {
+                previousType = board[i][j+1].getType();
                 currentType = board[i][j].getType();
 
+                //We do not want to add anything if the previous type is NON
+                if(PieceType.NONE == previousType)
+                    continue;
+
                 //if currentType is different from previousType, flush the currentValue into value
+                if(currentType != previousType)
+                {
+                    int toAdd = 10;
+                    if(previousType == PieceType.BLACK)
+                    {
+                        toAdd *= -1;
+                    }
+                    else if(previousType == PieceType.NONE)
+                    {
+                        toAdd = 0;
+                    }
+
+                    value += (int)Math.pow(toAdd, sameInARow);
+                    sameInARow = 1;
+                }
+                else
+                {
+                    sameInARow++;
+                }
             }
         }
 
@@ -351,5 +395,37 @@ public class Board {
         }
 
         return false; //default
+    }
+
+    public boolean checkWin()
+    {
+        //This checks horizontally---------------------------------
+        for (int i = 0; i < board.length; i++) {
+            int pieceInARow = 1;
+            PieceType previous, current;
+            for (int j = 0; j < board[0].length-1; j++) {
+                previous = board[i][j].getType();
+                current = board[i][j+1].getType();
+
+                if(previous != current) {
+                    pieceInARow = 1;
+                    continue;
+                }
+                else
+                {
+                    if(previous != PieceType.NONE && current != PieceType.NONE)
+                        pieceInARow++;
+                }
+
+                if(pieceInARow == 4) {
+                    isWin = true;
+                    return true;
+                }
+            }
+        }
+        //This checks horizontally---------------------------------
+
+        isWin = false;
+        return false;
     }
 }
