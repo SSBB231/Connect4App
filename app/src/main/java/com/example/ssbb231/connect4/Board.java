@@ -105,8 +105,10 @@ public class Board {
             this.filledValues[row] += 1;
         }
         //Check the spaces around the current piece to see if the win conditions are set.
-        if(check4InARow(row, col))
+        if(checkWin())
             this.isWin = true;
+        else
+            this.isWin = false;
 
     }
 
@@ -230,9 +232,13 @@ public class Board {
                 if(currentType != previousType)
                 {
                     int toAdd = 10;
-                    if(previousType == PieceType.RED)
+                    if(previousType == PieceType.BLACK)
                     {
                         toAdd *= -1;
+                    }
+                    else if(previousType == PieceType.NONE)
+                    {
+                        toAdd = 0;
                     }
 
                     value += (int)Math.pow(toAdd, sameInARow);
@@ -288,7 +294,7 @@ public class Board {
         for (int i = 0; i < board.length; i++) {
             int pieceInARow = 1;
             PieceType previous, current;
-            for (int j = 0; j < board[0].length; j++) {
+            for (int j = 0; j < board[0].length-1; j++) {
                 previous = board[i][j].getType();
                 current = board[i][j+1].getType();
 
@@ -298,15 +304,19 @@ public class Board {
                 }
                 else
                 {
-                    pieceInARow++;
+                    if(previous != PieceType.NONE && current != PieceType.NONE)
+                        pieceInARow++;
                 }
 
-                if(pieceInARow == 4)
+                if(pieceInARow == 4) {
+                    isWin = true;
                     return true;
+                }
             }
         }
         //This checks horizontally---------------------------------
 
+        isWin = false;
         return false;
     }
 }
