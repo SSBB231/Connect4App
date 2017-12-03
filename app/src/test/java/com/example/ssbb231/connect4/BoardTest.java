@@ -44,7 +44,7 @@ public class BoardTest {
     }
 
     @Test
-    public void utilityRedWin()
+    public void utilityRedHorizontalWin()
     {
         Player human = new HumanPlayer();
         Board board = new Board();
@@ -56,14 +56,22 @@ public class BoardTest {
     }
 
     @Test
-    public void utilityBlackWin()
+    public void utilityBlackHorizontalWin()
     {
         Player human = new HumanPlayer("Player 2", PieceType.BLACK, false);
         Board board = new Board();
-        board.putPiece(5, 6, new Piece(PieceType.BLACK));
-        board.putPiece(5, 5, new Piece(PieceType.BLACK));
-        board.putPiece(5, 4, new Piece(PieceType.BLACK));
-        board.putPiece(5, 3, new Piece(PieceType.BLACK));
+        board.putPiece(5, 4, PieceType.BLACK);
+        board.putPiece(5, 3, PieceType.BLACK);
+        board.putPiece(5, 2, PieceType.BLACK);
+        board.putPiece(5, 1, PieceType.BLACK);
         Assert.assertEquals(Integer.MIN_VALUE, board.utility(human));
+    }
+
+    @Test
+    public void utilityEmptyBoard()
+    {
+        Player human = new HumanPlayer("Player 2", PieceType.BLACK, false);
+        Board board = new Board();
+        Assert.assertEquals(0, board.utility(human));
     }
 }

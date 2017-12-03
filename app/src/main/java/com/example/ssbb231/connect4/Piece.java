@@ -24,6 +24,11 @@ public class Piece {
         return this.pieceVal;
     }
 
+    public void setType(PieceType t)
+    {
+        this.pieceVal = t;
+    }
+
     public String toString()
     {
         return pieceVal.face;

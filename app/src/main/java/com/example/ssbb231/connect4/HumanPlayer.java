@@ -15,7 +15,9 @@ public class HumanPlayer extends Player
         super(name, pieceType, isFirst);
     }
 
-    public HumanPlayer() {
+    public HumanPlayer()
+    {
+        super();
     }
 
     @Override

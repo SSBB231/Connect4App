@@ -113,6 +113,29 @@ public class Board {
     }
 
     /**
+     * Optimal version of putPiece. Will not create a new Instance of Piece, but rather
+     * just change the type of the Pieces that are already instantiated and in the board.
+     * Place a new piece into the board at the given position.
+     * Checks to see if the user has just won the game as well.
+     * @param row - The row index
+     * @param col - The col index
+     * @param p   - The piece to be passed in
+     */
+    public void putPiece(int row, int col, PieceType p){
+        //Put the piece in the appropriate place if it can.
+        if(isValidMove(row, col)) {
+            this.board[row][col].setType(p);
+            this.filledValues[row] += 1;
+        }
+        //Check the spaces around the current piece to see if the win conditions are set.
+        if(checkWin())
+            this.isWin = true;
+        else
+            this.isWin = false;
+
+    }
+
+    /**
      * Remove the piece from the board at the given position. Shouldn't actually be called by players.
      * @param row - The row index
      * @param col - The col index
