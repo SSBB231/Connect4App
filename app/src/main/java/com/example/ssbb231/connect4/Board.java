@@ -28,7 +28,7 @@ public class Board {
         //Make sure to inailize the board to nulls //remove if not needed
         for(int i = 0; i < 6; i++){
             for(int j = 0; j < 7; j++)
-                this.board[i][j] = null;
+                this.board[i][j] = new Piece(PieceType.NONE);
         }
         this.filledValues = new int[6];
         for(int i = 0; i < numRows; i++)
@@ -100,7 +100,7 @@ public class Board {
      */
     public void putPiece(int row, int col, Piece p){
         //Put the piece in the appropriate place if it can.
-        if(isValidPut(row, col)) {
+        if(isValidMove(row, col)) {
             this.board[row][col] = p;
             this.filledValues[row] += 1;
         }
@@ -210,23 +210,41 @@ public class Board {
         }
 
         //Keeps track of how many pieces of the same color are in the same row
-        int sameInARow = 0;
-
-        //Keep track of the mini values that are formed by chains of tiles of same color
-        int currentValue;
+        int sameInARow = 1;
 
         //It is optimal to check the board from bottom to top.
-        for(int i = board.length; i >= 0; i--)
+        for(int i = board.length-1; i >= 0; i--)
         {
             //Set currentValue to zero to check the current row for triples or quadruples.
             //For each row, start with a neutral PieceType
-            PieceType previousType = board[i][0].getType();
+            PieceType previousType = board[i][board[0].length-1].getType();
+
+            //We do not want to add anything if the previous type is NON
+            if(PieceType.NONE == previousType)
+                continue;
+
             PieceType currentType;
-            for(int j = board[0].length; j >= 0; j--)
+
+            for(int j = board[0].length-2; j >= 0; j--)
             {
                 currentType = board[i][j].getType();
 
                 //if currentType is different from previousType, flush the currentValue into value
+                if(currentType != previousType)
+                {
+                    int toAdd = 10;
+                    if(previousType == PieceType.RED)
+                    {
+                        toAdd *= -1;
+                    }
+
+                    value += (int)Math.pow(toAdd, sameInARow);
+                    sameInARow = 1;
+                }
+                else
+                {
+                    sameInARow++;
+                }
             }
         }
 

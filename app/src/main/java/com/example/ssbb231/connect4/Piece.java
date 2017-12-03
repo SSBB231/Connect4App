@@ -9,6 +9,16 @@ public class Piece {
     //field
     private PieceType pieceVal;
 
+    public Piece(PieceType t)
+    {
+        this.pieceVal = t;
+    }
+
+    public Piece()
+    {
+        this(PieceType.RED);
+    }
+
     public PieceType getType()
     {
         return this.pieceVal;
