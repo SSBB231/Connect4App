@@ -28,7 +28,7 @@ public class Board {
         //Make sure to inailize the board to nulls //remove if not needed
         for(int i = 0; i < 6; i++){
             for(int j = 0; j < 7; j++)
-                this.board[i][j] = null;
+                this.board[i][j] = new Piece(); //board is full of PieceType.NONE
         }
         this.filledValues = new int[6];
         for(int i = 0; i < numRows; i++)
@@ -105,7 +105,7 @@ public class Board {
             this.filledValues[row] += 1;
         }
         //Check the spaces around the current piece to see if the win conditions are set.
-        if(check4InARow(row, col))
+        if(check4InARow(row, col,p))
             this.isWin = true;
 
     }
@@ -253,17 +253,103 @@ public class Board {
      * @param col - The col index
      * @return
      */
-    private boolean check4InARow(int row, int col){
-        //Coordinate positions
-        int leftX = row, leftY = col - 1;
-        int rightX = row, rightY = col + 1 ;
-        int upX = row + 1,  upY = col;
-        int downX = row - 1, downY = col;
-        int upLeftX =  row + 1, upLeftY = col - 1;
-        int upRightX = row + 1, upRightY = col + 1;
-        int downLeftX = row - 1, downLeftY = col - 1;
+    private boolean check4InARow(int row, int col, Piece p){
+        //counts all start at 1 to account for piece just placed
+        int nsCount = 1;
+        int ewCount = 1;
+        int neswCount = 1;
+        int nwseCount = 1;
 
-        //Need to finish this
-        return false;
+        //CHECK NORTH
+        for(int i = row; i >= 0; i--){
+            if(this.board[i][col].equals(p)){
+                nsCount++;
+            }
+            else{
+                break; //stops loop the minute the next piece isn't the same
+            }
+        }
+        //CHECK SOUTH
+        for(int i = row; i < 6; i++){
+            if(this.board[i][col].equals(p)){
+                nsCount++;
+            }
+            else{
+                break;
+            }
+        }
+        if(nsCount >= 4){
+            //four or more in a row vertically
+            return true;
+        }
+
+        // CHECK EAST
+        for(int i = col; i <7;i++){
+            if(this.board[row][i].equals(p)){
+                ewCount++;
+            }
+            else{
+                break;
+            }
+        }
+        //CHECK WEST
+        for (int i = col; i >= 0;i--){
+            if(this.board[row][i].equals(p)){
+                ewCount++;
+            }
+        }
+        if(ewCount >= 4){
+            //four or more in a row horizontally
+            return true;
+        }
+
+        //CHECK NORTH EAST
+        for(int i = row,j = col; i >= 0 && j < 7; i--,j++){
+            if(this.board[i][j].equals(p)){
+                neswCount++;
+            }
+            else {
+                break;
+            }
+        }
+        //CHECK SOUTH WEST
+        for(int i = row,j = col; i < 6 && j >= 0; i++,j--){
+            //this check s.w. direction
+            if(this.board[i][j].equals(p)){
+                neswCount++;
+            }
+            else {
+                break;
+            }
+        }
+        if(neswCount >= 4){
+            //we have four or more in a row diagonally
+            return true;
+        }
+
+        //CHECK NORTH WEST
+        for(int i = row, j = col; i >= 0 && j >= 0; i--,j--){
+            if(this.board[i][j].equals(p)){
+                nwseCount++;
+            }
+            else{
+                break;
+            }
+        }
+        //CHECK SOUTH EAST
+        for(int i = row, j = col; i < 6 && j < 7; i++,j++){
+            if(this.board[i][j].equals(p)){
+                nwseCount++;
+            }
+            else{
+                break;
+            }
+        }
+        if(nwseCount >= 4){
+            //we have 4 or more in a row diagonally
+            return true;
+        }
+
+        return false; //default
     }
 }
