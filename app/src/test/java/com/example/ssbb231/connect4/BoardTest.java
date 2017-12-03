@@ -40,6 +40,18 @@ public class BoardTest {
         Player human = new HumanPlayer();
         Board board = new Board();
         board.putPiece(5, 6, new Piece());
-        Assert.assertEquals(-500, board.utility(human));
+        Assert.assertEquals(-10, board.utility(human));
+    }
+
+    @Test
+    public void utilityRedWin()
+    {
+        Player human = new HumanPlayer();
+        Board board = new Board();
+        board.putPiece(5, 6, new Piece());
+        board.putPiece(5, 5, new Piece());
+        board.putPiece(5, 4, new Piece());
+        board.putPiece(5, 3, new Piece());
+        Assert.assertEquals(Integer.MIN_VALUE, board.utility(human));
     }
 }

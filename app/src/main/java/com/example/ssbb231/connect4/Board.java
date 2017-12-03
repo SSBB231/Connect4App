@@ -215,19 +215,16 @@ public class Board {
         //It is optimal to check the board from bottom to top.
         for(int i = board.length-1; i >= 0; i--)
         {
-            //Set currentValue to zero to check the current row for triples or quadruples.
-            //For each row, start with a neutral PieceType
-            PieceType previousType = board[i][board[0].length-1].getType();
-
-            //We do not want to add anything if the previous type is NON
-            if(PieceType.NONE == previousType)
-                continue;
-
-            PieceType currentType;
+            PieceType currentType, previousType;
 
             for(int j = board[0].length-2; j >= 0; j--)
             {
+                previousType = board[i][j+1].getType();
                 currentType = board[i][j].getType();
+
+                //We do not want to add anything if the previous type is NON
+                if(PieceType.NONE == previousType)
+                    continue;
 
                 //if currentType is different from previousType, flush the currentValue into value
                 if(currentType != previousType)
@@ -282,6 +279,34 @@ public class Board {
         int downLeftX = row - 1, downLeftY = col - 1;
 
         //Need to finish this
+        return false;
+    }
+
+    public boolean checkWin()
+    {
+        //This checks horizontally---------------------------------
+        for (int i = 0; i < board.length; i++) {
+            int pieceInARow = 1;
+            PieceType previous, current;
+            for (int j = 0; j < board[0].length; j++) {
+                previous = board[i][j].getType();
+                current = board[i][j+1].getType();
+
+                if(previous != current) {
+                    pieceInARow = 1;
+                    continue;
+                }
+                else
+                {
+                    pieceInARow++;
+                }
+
+                if(pieceInARow == 4)
+                    return true;
+            }
+        }
+        //This checks horizontally---------------------------------
+
         return false;
     }
 }
