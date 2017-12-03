@@ -188,8 +188,63 @@ public class Board {
      *
      * @return  This board's utility based on its current state.
      */
-    public int utility() {
-        return 0;
+    public int utility(Player currentPlayer) {
+
+        //initialize value to return as zero first
+        int value = 0;
+
+        //First, check for win. If win, return maximum value or minimum value depending on who the current player is
+        if(isWin)
+        {
+            if(currentPlayer.isPlayer1())
+                return Integer.MAX_VALUE;
+            else
+                return Integer.MIN_VALUE;
+        }
+
+        //If the board is full and it wasn't a win, then it's a tie.
+        //return neutral value
+        if(isFull())
+        {
+            return 0;
+        }
+
+        //Keeps track of how many pieces of the same color are in the same row
+        int sameInARow = 0;
+
+        //Keep track of the mini values that are formed by chains of tiles of same color
+        int currentValue;
+
+        //It is optimal to check the board from bottom to top.
+        for(int i = board.length; i >= 0; i--)
+        {
+            //Set currentValue to zero to check the current row for triples or quadruples.
+            //For each row, start with a neutral PieceType
+            PieceType previousType = board[i][0].getType();
+            PieceType currentType;
+            for(int j = board[0].length; j >= 0; j--)
+            {
+                currentType = board[i][j].getType();
+
+                //if currentType is different from previousType, flush the currentValue into value
+            }
+        }
+
+        return value;
+    }
+
+    private boolean isFull()
+    {
+        for(int i = 0; i < board.length; i++)
+        {
+            for(int j = 0; j < board[0].length; j++)
+            {
+                if(board[i][j].getType() == PieceType.NONE)
+                    return false;
+            }
+        }
+
+        return true;
     }
 
     /**
