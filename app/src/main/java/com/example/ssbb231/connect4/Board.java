@@ -54,6 +54,27 @@ public class Board {
             this.filledValues[i] = 0;
     }
 
+    public void putPiece(int col, PieceType t)
+    {
+        for (int i = board.length-1; i >= 0 ; i--) {
+            if(isValidMove(i, col))
+            {
+                putPiece(i, col, t);
+                break;
+            }
+        }
+    }
+
+    public void putPiece(int col, Piece p)
+    {
+        for (int i = board.length-1; i >= 0 ; i--) {
+            if(isValidMove(i, col))
+            {
+                putPiece(i, col, p);
+                break;
+            }
+        }
+    }
 
     public String toString() {
         StringBuilder builder = new StringBuilder();
@@ -66,6 +87,14 @@ public class Board {
         }
 
         return builder.toString();
+    }
+
+    public int getNumRows() {
+        return numRows;
+    }
+
+    public int getNumCols() {
+        return numCols;
     }
 
     public boolean isValidMove(int row, int col)
@@ -148,6 +177,20 @@ public class Board {
         }
     }
 
+    public void removePiece(int col)
+    {
+        PieceType returnVal;
+        for (int i = 0; i < board.length-1; i++) {
+            returnVal = board[i][col].getType();
+
+            if(returnVal != PieceType.NONE)
+            {
+                board[i][col].setType(PieceType.NONE);
+                break;
+            }
+        }
+    }
+
     /**
      * Return the current board
      * @return - The board represented as an array of Pieces
@@ -206,6 +249,58 @@ public class Board {
         */
     }
 
+    public int horizontalUtility(Player currentPlayer)
+    {
+        //------------------------ Horizontal Utility -----------------------------------
+        int value = 0;
+
+        //Keeps track of how many pieces of the same color are in the same row
+        int sameInARow = 1;
+
+        //It is optimal to check the board from bottom to top.
+        for(int i = board.length-1; i >= 0; i--)
+        {
+            PieceType currentType, previousType;
+
+            for(int j = board[0].length-2; j >= 0; j--)
+            {
+                previousType = board[i][j+1].getType();
+                currentType = board[i][j].getType();
+
+                //We do not want to add anything if the previous type is NON
+                if(PieceType.NONE == previousType)
+                    continue;
+
+                //if currentType is different from previousType, flush the currentValue into value
+                if(currentType != previousType)
+                {
+                    int toAdd = 50;
+                    if(previousType == PieceType.BLACK)
+                    {
+                        toAdd = -50;
+                    }
+//                    else if(previousType == PieceType.NONE)
+//                    {
+//                        toAdd = 0;
+//                    }
+
+                    if(toAdd < 0 && sameInARow >= 2)
+                        value += -(int)Math.pow(toAdd, sameInARow);
+                    else
+                        value += (int)Math.pow(toAdd, sameInARow);
+
+                    sameInARow = 1;
+                }
+                else
+                {
+                    sameInARow++;
+                }
+            }
+        }
+
+        return value;
+        //------------------------ Horizontal Utility -----------------------------------
+    }
     /**
      * This method will assign a numerical value that will describe how good the Board's current state
      * is for each of the players. Min will be the computer player and Max will be the human player.
@@ -234,8 +329,18 @@ public class Board {
             return 0;
         }
 
-        //Keeps track of how many pieces of the same color are in the same row
-        int sameInARow = 1;
+        value += horizontalUtility(currentPlayer);
+        value += verticalUtility(currentPlayer);
+
+        return value;
+    }
+
+    public int verticalUtility(Player currentPlayer)
+    {
+        int value = 0;
+        //------------------------ Vertical Utility -----------------------------------
+        //Keeps track of how many pieces of the same color are in the same col
+        int sameInACol = 1;
 
         //It is optimal to check the board from bottom to top.
         for(int i = board.length-1; i >= 0; i--)
@@ -244,8 +349,8 @@ public class Board {
 
             for(int j = board[0].length-2; j >= 0; j--)
             {
-                previousType = board[i][j+1].getType();
-                currentType = board[i][j].getType();
+                previousType = board[j][i+1].getType();
+                currentType = board[j][i].getType();
 
                 //We do not want to add anything if the previous type is NON
                 if(PieceType.NONE == previousType)
@@ -254,30 +359,35 @@ public class Board {
                 //if currentType is different from previousType, flush the currentValue into value
                 if(currentType != previousType)
                 {
-                    int toAdd = 10;
+                    int toAdd = 50;
                     if(previousType == PieceType.BLACK)
                     {
-                        toAdd *= -1;
+                        toAdd = -50;
                     }
-                    else if(previousType == PieceType.NONE)
-                    {
-                        toAdd = 0;
-                    }
+//                    else if(previousType == PieceType.NONE)
+//                    {
+//                        toAdd = 0;
+//                    }
 
-                    value += (int)Math.pow(toAdd, sameInARow);
-                    sameInARow = 1;
+                    if(toAdd < 0 && sameInACol >= 2)
+                        value += -(int)Math.pow(toAdd, sameInACol);
+                    else
+                        value += (int)Math.pow(toAdd, sameInACol);
+
+                    sameInACol = 1;
                 }
                 else
                 {
-                    sameInARow++;
+                    sameInACol++;
                 }
             }
         }
 
         return value;
+        //------------------------ Vertical Utility -----------------------------------
     }
 
-    private boolean isFull()
+    public boolean isFull()
     {
         for(int i = 0; i < board.length; i++)
         {
