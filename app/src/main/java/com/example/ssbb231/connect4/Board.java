@@ -385,6 +385,56 @@ public class Board {
         //------------------------ Vertical Utility -----------------------------------
     }
 
+    public int diagonalDownUtility()
+    {
+        int value = 0;
+        //------------------------ Vertical Utility -----------------------------------
+        //Keeps track of how many pieces of the same color are in the same col
+        int sameInACol = 1;
+        int toAdd;
+
+        PieceType previous, current;
+
+        for (int i = 0; i < numRows-2; i++) {
+            for (int x = 0, y = i; x < numCols-2 && y < numRows-2; x = y = y++) {
+                previous = board[x][y].getType();
+                current = board[x+1][y+1].getType();
+
+                toAdd = previous.value;
+
+                if(current != previous)
+                {
+                    if(toAdd < 0 && sameInACol >= 2)
+                        value += -(int)Math.pow(toAdd, sameInACol);
+                    else
+                        value += (int)Math.pow(toAdd, sameInACol);
+
+                    sameInACol = 1;
+                }
+                else
+                {
+                    sameInACol++;
+                }
+
+                if(y == 0)
+                {
+                    toAdd = current.value;
+
+                    if(toAdd < 0 && sameInACol >= 2)
+                        value += -(int)Math.pow(toAdd, sameInACol);
+                    else
+                        value += (int)Math.pow(toAdd, sameInACol);
+                }
+
+                if(current == PieceType.NONE)
+                    break;
+            }
+        }
+
+        return value;
+        //------------------------ Vertical Utility -----------------------------------
+    }
+
     public boolean isFull()
     {
         for(int i = 0; i < board.length; i++)
