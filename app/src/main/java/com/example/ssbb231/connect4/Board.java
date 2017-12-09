@@ -289,6 +289,8 @@ public class Board {
                         value += -(int)Math.pow(toAdd, sameInARow);
                     else
                         value += (int)Math.pow(toAdd, sameInARow);
+
+                    sameInARow = 1;
                 }
             }
 
@@ -374,6 +376,8 @@ public class Board {
                         value += -(int)Math.pow(toAdd, sameInACol);
                     else
                         value += (int)Math.pow(toAdd, sameInACol);
+
+                    sameInACol = 1;
                 }
 
                 if(current == PieceType.NONE)
@@ -395,12 +399,15 @@ public class Board {
 
         PieceType previous, current;
 
-        for (int i = 0; i < numRows-2; i++) {
-            for (int x = 0, y = i; x < numCols-2 && y < numRows-2; x = y = y++) {
-                previous = board[x][y].getType();
-                current = board[x+1][y+1].getType();
+        for (int i = 0; i < numRows-1; i++) {
+            for (int x = 0, y = i; x < numCols-1 && y < numRows-1; x++,y++) {
+                previous = board[y][x].getType();
+                current = board[y+1][x+1].getType();
 
                 toAdd = previous.value;
+
+                if(previous == PieceType.NONE && current == PieceType.NONE)
+                    continue;
 
                 if(current != previous)
                 {
@@ -416,7 +423,7 @@ public class Board {
                     sameInACol++;
                 }
 
-                if(y == 0)
+                if(y == numRows-2)
                 {
                     toAdd = current.value;
 
@@ -424,10 +431,49 @@ public class Board {
                         value += -(int)Math.pow(toAdd, sameInACol);
                     else
                         value += (int)Math.pow(toAdd, sameInACol);
+
+                    sameInACol = 1;
+                }
+            }
+        }
+
+        sameInACol = 1;
+
+        for (int i = 1; i < numRows-1; i++) {
+            for (int x = i, y = 0; x < numCols-1 && y < numRows-1; x++,y++) {
+                previous = board[y][x].getType();
+                current = board[y+1][x+1].getType();
+
+                toAdd = previous.value;
+
+                if(previous == PieceType.NONE && current == PieceType.NONE)
+                    continue;
+
+                if(current != previous)
+                {
+                    if(toAdd < 0 && sameInACol >= 2)
+                        value += -(int)Math.pow(toAdd, sameInACol);
+                    else
+                        value += (int)Math.pow(toAdd, sameInACol);
+
+                    sameInACol = 1;
+                }
+                else
+                {
+                    sameInACol++;
                 }
 
-                if(current == PieceType.NONE)
-                    break;
+                if(y == numRows-2)
+                {
+                    toAdd = current.value;
+
+                    if(toAdd < 0 && sameInACol >= 2)
+                        value += -(int)Math.pow(toAdd, sameInACol);
+                    else
+                        value += (int)Math.pow(toAdd, sameInACol);
+
+                    sameInACol = 1;
+                }
             }
         }
 

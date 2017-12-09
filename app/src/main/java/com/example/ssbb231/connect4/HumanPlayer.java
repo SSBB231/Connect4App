@@ -15,6 +15,10 @@ public class HumanPlayer extends Player
         super(name, pieceType, isFirst);
     }
 
+    public HumanPlayer(String name, PieceType pieceType) {
+        super(name, pieceType);
+    }
+
     public HumanPlayer()
     {
         super();

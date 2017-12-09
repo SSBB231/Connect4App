@@ -29,6 +29,11 @@ public abstract class Player implements Serializable{
         this(name, 0, 0, pieceType, -1, isFirst);
     }
 
+    public Player(String name, PieceType pieceType)
+    {
+        this(name, 0, 0, pieceType, -1, pieceType.first);
+    }
+
     public Player()
     {
         this("Player 1", PieceType.RED, true);
