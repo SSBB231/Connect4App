@@ -29,7 +29,7 @@ public class Board {
         //Make sure to inailize the board to nulls //remove if not needed
         for(int i = 0; i < 6; i++){
             for(int j = 0; j < 7; j++)
-                this.board[i][j] = new Piece(); //board is full of PieceType.NONE
+                this.board[i][j] = new Piece(PieceType.NONE); //board is full of PieceType.NONE
         }
         this.filledValues = new int[6];
         for(int i = 0; i < numRows; i++)
@@ -250,41 +250,25 @@ public class Board {
         */
     }
 
-    public int horizontalUtility(Player currentPlayer)
+    public int horizontalUtility()
     {
-        //------------------------ Horizontal Utility -----------------------------------
         int value = 0;
-
-        //Keeps track of how many pieces of the same color are in the same row
+        //------------------------ Vertical Utility -----------------------------------
+        //Keeps track of how many pieces of the same color are in the same col
         int sameInARow = 1;
+        int toAdd;
 
-        //It is optimal to check the board from bottom to top.
-        for(int i = board.length-1; i >= 0; i--)
-        {
-            PieceType currentType, previousType;
+        PieceType previous, current;
 
-            for(int j = board[0].length-2; j >= 0; j--)
-            {
-                previousType = board[i][j+1].getType();
-                currentType = board[i][j].getType();
+        for (int i = board.length-1; i >= 0; i--) {
+            for (int j = board[0].length-2; j >= 0; j--) {
+                previous = board[i][j+1].getType();
+                current = board[i][j].getType();
 
-                //We do not want to add anything if the previous type is NON
-                if(PieceType.NONE == previousType)
-                    continue;
+                toAdd = previous.value;
 
-                //if currentType is different from previousType, flush the currentValue into value
-                if(currentType != previousType)
+                if(current != previous)
                 {
-                    int toAdd = 50;
-                    if(previousType == PieceType.BLACK)
-                    {
-                        toAdd = -50;
-                    }
-//                    else if(previousType == PieceType.NONE)
-//                    {
-//                        toAdd = 0;
-//                    }
-
                     if(toAdd < 0 && sameInARow >= 2)
                         value += -(int)Math.pow(toAdd, sameInARow);
                     else
@@ -296,11 +280,23 @@ public class Board {
                 {
                     sameInARow++;
                 }
+
+                if(j == 0)
+                {
+                    toAdd = current.value;
+
+                    if(toAdd < 0 && sameInARow >= 2)
+                        value += -(int)Math.pow(toAdd, sameInARow);
+                    else
+                        value += (int)Math.pow(toAdd, sameInARow);
+                }
             }
+
+
         }
 
         return value;
-        //------------------------ Horizontal Utility -----------------------------------
+        //------------------------ Vertical Utility -----------------------------------
     }
     /**
      * This method will assign a numerical value that will describe how good the Board's current state
@@ -330,46 +326,34 @@ public class Board {
             return 0;
         }
 
-        value += horizontalUtility(currentPlayer);
-        value += verticalUtility(currentPlayer);
+        value += horizontalUtility();
+        value += verticalUtility();
 
         return value;
     }
 
-    public int verticalUtility(Player currentPlayer)
+    public int verticalUtility()
     {
         int value = 0;
         //------------------------ Vertical Utility -----------------------------------
         //Keeps track of how many pieces of the same color are in the same col
         int sameInACol = 1;
+        int toAdd;
 
-        //It is optimal to check the board from bottom to top.
-        for(int i = board.length-1; i >= 0; i--)
-        {
-            PieceType currentType, previousType;
+        PieceType previous, current;
 
-            for(int j = board[0].length-2; j >= 0; j--)
-            {
-                previousType = board[j][i+1].getType();
-                currentType = board[j][i].getType();
+        for (int i = board[0].length-1; i >= 0; i--) {
+            for (int j = board.length-2; j >= 0; j--) {
+                previous = board[j+1][i].getType();
+                current = board[j][i].getType();
 
-                //We do not want to add anything if the previous type is NON
-                if(PieceType.NONE == previousType)
-                    continue;
+                toAdd = previous.value;
 
-                //if currentType is different from previousType, flush the currentValue into value
-                if(currentType != previousType)
+                //If the row is empty, no point in going on. Move to next column.
+                if(previous == PieceType.NONE)
+                    break;
+                else if(current != previous)
                 {
-                    int toAdd = 50;
-                    if(previousType == PieceType.BLACK)
-                    {
-                        toAdd = -50;
-                    }
-//                    else if(previousType == PieceType.NONE)
-//                    {
-//                        toAdd = 0;
-//                    }
-
                     if(toAdd < 0 && sameInACol >= 2)
                         value += -(int)Math.pow(toAdd, sameInACol);
                     else
@@ -381,6 +365,19 @@ public class Board {
                 {
                     sameInACol++;
                 }
+
+                if(j == 0)
+                {
+                    toAdd = current.value;
+
+                    if(toAdd < 0 && sameInACol >= 2)
+                        value += -(int)Math.pow(toAdd, sameInACol);
+                    else
+                        value += (int)Math.pow(toAdd, sameInACol);
+                }
+
+                if(current == PieceType.NONE)
+                    break;
             }
         }
 

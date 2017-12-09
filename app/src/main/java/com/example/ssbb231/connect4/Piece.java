@@ -16,7 +16,7 @@ public class Piece {
 
     public Piece()
     {
-        this(PieceType.RED);
+        this(PieceType.NONE);
     }
 
     public PieceType getType()

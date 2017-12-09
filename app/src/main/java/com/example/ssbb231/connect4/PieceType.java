@@ -6,12 +6,14 @@ package com.example.ssbb231.connect4;
 
 public enum PieceType
 {
-    BLACK("B"), RED("R"), NONE("-");
+    BLACK("B", -50), RED("R", 50), NONE("-", 0);
 
     public String face;
+    public int value;
 
-    PieceType(String face)
+    PieceType(String face, int value)
     {
         this.face = face;
+        this.value = value;
     }
 }

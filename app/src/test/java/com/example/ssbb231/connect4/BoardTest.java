@@ -20,7 +20,7 @@ public class BoardTest {
     public void validMoveOnTaken()
     {
         Board board = new Board();
-        board.putPiece(5, 0, new Piece());
+        board.putPiece(5, 0, new Piece(PieceType.RED));
         Assert.assertFalse(board.isValidMove(5, 0));
     }
 
@@ -64,26 +64,24 @@ public class BoardTest {
     public void validMoveOnTop()
     {
         Board board = new Board();
-        board.putPiece(5, 0, new Piece());
+        board.putPiece(5, 0, new Piece(PieceType.RED));
         Assert.assertTrue(board.isValidMove(4, 0));
     }
 
     @Test
     public void utilityOnePieceHorizontal()
     {
-        Player human = new HumanPlayer();
         Board board = new Board();
-        board.putPiece(5, 6, new Piece());
-        Assert.assertEquals(50, board.horizontalUtility(human));
+        board.putPiece(5, 6, new Piece(PieceType.RED));
+        Assert.assertEquals(50, board.horizontalUtility());
     }
 
     @Test
     public void utilityOnePieceVertical()
     {
-        Player human = new HumanPlayer();
         Board board = new Board();
-        board.putPiece(5, 6, new Piece());
-        Assert.assertEquals(50, board.verticalUtility(human));
+        board.putPiece(5, 6, PieceType.RED);
+        Assert.assertEquals(50, board.verticalUtility());
     }
 
     @Test
@@ -116,7 +114,7 @@ public class BoardTest {
         Player human = new HumanPlayer("Player 2", PieceType.RED, true);
         Board board = new Board();
         board.putPiece(5, 4, human.getPieceType());
-        Assert.assertEquals(50, board.horizontalUtility(human));
+        Assert.assertEquals(50, board.horizontalUtility());
     }
 
     @Test
@@ -126,7 +124,7 @@ public class BoardTest {
         Board board = new Board();
         board.putPiece(5, 4, human.getPieceType());
         board.putPiece(5, 3, human.getPieceType());
-        Assert.assertEquals((int)Math.pow(50, 2), board.horizontalUtility(human));
+        Assert.assertEquals((int)Math.pow(50, 2), board.horizontalUtility());
     }
 
     @Test
@@ -137,7 +135,7 @@ public class BoardTest {
         board.putPiece(5, 4, human.getPieceType());
         board.putPiece(5, 3, human.getPieceType());
         board.putPiece(5, 2, human.getPieceType());
-        Assert.assertEquals((int)Math.pow(50, 3), board.horizontalUtility(human));
+        Assert.assertEquals((int)Math.pow(50, 3), board.horizontalUtility());
     }
 
     @Test
@@ -149,7 +147,7 @@ public class BoardTest {
         board.putPiece(5, 3, PieceType.BLACK);
         board.putPiece(5, 2, human.getPieceType());
         board.putPiece(5, 1, human.getPieceType());
-        Assert.assertEquals((int)Math.pow(50, 2), board.horizontalUtility(human));
+        Assert.assertEquals((int)Math.pow(50, 2), board.horizontalUtility());
     }
 
     @Test
@@ -161,7 +159,7 @@ public class BoardTest {
         board.putPiece(5, 3, PieceType.NONE);
         board.putPiece(5, 2, human.getPieceType());
         board.putPiece(5, 1, human.getPieceType());
-        Assert.assertEquals((int)Math.pow(50, 2)+50, board.horizontalUtility(human));
+        Assert.assertEquals((int)Math.pow(50, 2)+50, board.horizontalUtility());
     }
 
     @Test
@@ -173,7 +171,19 @@ public class BoardTest {
         board.putPiece(0, human.getPieceType());
         board.putPiece(0, PieceType.BLACK);
         board.putPiece(0, human.getPieceType());
-        Assert.assertEquals((int)Math.pow(50, 2)+50, board.verticalUtility(human));
+        Assert.assertEquals((int)Math.pow(50, 2), board.verticalUtility());
+    }
+
+    @Test
+    public void utilityThreeVerticalBrokenREDBlack()
+    {
+        Player human = new HumanPlayer("Player 2", PieceType.BLACK, false);
+        Board board = new Board();
+        board.putPiece(0, human.getPieceType());
+        board.putPiece(0, human.getPieceType());
+        board.putPiece(0, PieceType.RED);
+        board.putPiece(0, human.getPieceType());
+        Assert.assertEquals(-(int)Math.pow(50, 2), board.verticalUtility());
     }
 
     @Test
@@ -191,7 +201,7 @@ public class BoardTest {
         board.putPiece(2, human.getPieceType());
         board.putPiece(1, human.getPieceType());
 
-        Assert.assertEquals(-2*((int)Math.pow(50, 2)), board.horizontalUtility(human));
+        Assert.assertEquals(-2*((int)Math.pow(50, 2)), board.horizontalUtility());
     }
 
     @Test
@@ -202,7 +212,20 @@ public class BoardTest {
         board.putPiece(0, human.getPieceType());
         board.putPiece(0, PieceType.RED);
 
-        Assert.assertEquals(0, board.horizontalUtility(human));
+        Assert.assertEquals(0, board.horizontalUtility());
+    }
+
+    @Test
+    public void sequentialVerticalUtilities()
+    {
+        Player human = new HumanPlayer("Player 2", PieceType.BLACK, false);
+        Board board = new Board();
+
+        for (int i = 0; i < board.getNumCols(); i++) {
+            board.putPiece(i, human.getPieceType());
+        }
+
+        Assert.assertEquals(-50*7, board.verticalUtility());
     }
 
     @Test
@@ -211,6 +234,29 @@ public class BoardTest {
         Player human = new HumanPlayer("Player 2", PieceType.BLACK, false);
         Board board = new Board();
         Assert.assertEquals(0, board.utility(human));
+    }
+
+    @Test
+    public void totalUtilOneRED()
+    {
+        Player human = new HumanPlayer("Player 1", PieceType.RED, true);
+        Board board = new Board();
+        board.putPiece(0, human.getPieceType());
+        Assert.assertEquals(50+50, board.utility(human));
+    }
+
+    @Test
+    public void zigZagVertical()
+    {
+        Board board = new Board();
+        for (int i = 0; i < board.getNumRows(); i++) {
+            if(i % 2 == 0)
+                board.putPiece(0, PieceType.RED);
+            else
+                board.putPiece(0, PieceType.BLACK);
+
+        }
+        Assert.assertEquals(0, board.verticalUtility());
     }
 
     @Test
