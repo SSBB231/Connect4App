@@ -330,6 +330,7 @@ public class Board {
 
         value += horizontalUtility();
         value += verticalUtility();
+        value += diagonalUtility();
 
         return value;
     }

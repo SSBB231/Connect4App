@@ -242,7 +242,7 @@ public class BoardTest {
         Player human = new HumanPlayer("Player 1", PieceType.RED, true);
         Board board = new Board();
         board.putPiece(0, human.getPieceType());
-        Assert.assertEquals(50+50, board.utility(human));
+        Assert.assertEquals(3*50, board.utility(human));
     }
 
     @Test
