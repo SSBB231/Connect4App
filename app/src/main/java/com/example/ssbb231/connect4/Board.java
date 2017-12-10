@@ -15,6 +15,28 @@ public class Board {
 
     //methods
 
+    public Board deepCopy()
+    {
+        Board copy = new Board();
+        PieceType piece;
+
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < numCols; j++) {
+
+                piece = this.board[i][j].getType();
+
+                if(piece == PieceType.NONE)
+                    continue;
+                else
+                {
+                    copy.putPieceBypass(i, j, piece);
+                }
+            }
+        }
+
+        return copy;
+    }
+
     /**
      * Default constructor for the class, currently hardcoding the size of the board
      */
@@ -61,7 +83,6 @@ public class Board {
             if(isValidMove(i, col))
             {
                 putPiece(i, col, t);
-
                 break;
             }
         }
@@ -116,6 +137,15 @@ public class Board {
         {
             return true;
         }
+    }
+
+    public boolean isValidMove(int col)
+    {
+        for (int i = board.length-1; i >= 0 ; i--) {
+            if(isValidMove(i, col))
+                return true;
+        }
+        return false;
     }
 
     public boolean withinBounds(int row, int col)
@@ -180,10 +210,11 @@ public class Board {
         }
     }
 
-    public void removePiece(int col)
+    public PieceType removePiece(int col)
     {
-        PieceType returnVal;
-        for (int i = 0; i < board.length-1; i++) {
+        PieceType returnVal = PieceType.NONE;
+
+        for (int i = 0; i < numRows; i++) {
             returnVal = board[i][col].getType();
 
             if(returnVal != PieceType.NONE)
@@ -192,6 +223,7 @@ public class Board {
                 break;
             }
         }
+        return returnVal;
     }
 
     /**
