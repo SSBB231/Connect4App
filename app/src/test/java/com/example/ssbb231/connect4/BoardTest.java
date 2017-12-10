@@ -291,31 +291,97 @@ public class BoardTest {
 
         board.putPiece(2, first.getPieceType());
 
-        Assert.assertEquals((int)Math.pow(PieceType.RED.value, 3), board.diagonalDownUtility());
+        Assert.assertEquals((int)Math.pow(50, 3)+(int)Math.pow(50, 2)+100, board.diagonalUtility());
     }
-
-    @Test
-    public void diagonalUtilitySecondHalf()
-    {
-        Board board = new Board();
-
-        Player first, second;
-
-        first = new HumanPlayer("P1", PieceType.RED);
-        second = new HumanPlayer("P2", PieceType.BLACK);
-
-        board.putPiece(3, second.getPieceType());
-        board.putPiece(3, first.getPieceType());
-        board.putPiece(3, first.getPieceType());
-        board.putPiece(3, second.getPieceType());
-
-        board.putPiece(4, first.getPieceType());
-        board.putPiece(4, first.getPieceType());
-        board.putPiece(4, second.getPieceType());
-
-        board.putPiece(5, first.getPieceType());
-        board.putPiece(5, second.getPieceType());
-
-        Assert.assertEquals((int)Math.pow(-50, 3)+(int)Math.pow(50, 2)+(int)Math.pow(50, 3)-50, board.diagonalDownUtility());
-    }
+//
+//    @Test
+//    public void diagonalUtilitySecondHalf()
+//    {
+//        Board board = new Board();
+//
+//        Player first, second;
+//
+//        first = new HumanPlayer("P1", PieceType.RED);
+//        second = new HumanPlayer("P2", PieceType.BLACK);
+//
+//        board.putPiece(3, second.getPieceType());
+//        board.putPiece(3, first.getPieceType());
+//        board.putPiece(3, first.getPieceType());
+//        board.putPiece(3, second.getPieceType());
+//
+//        board.putPiece(4, first.getPieceType());
+//        board.putPiece(4, first.getPieceType());
+//        board.putPiece(4, second.getPieceType());
+//
+//        board.putPiece(5, first.getPieceType());
+//        board.putPiece(5, second.getPieceType());
+//
+//        Assert.assertEquals((int)Math.pow(-50, 3)+(int)Math.pow(50, 2)+(int)Math.pow(50, 3)-50, board.diagonalUtility());
+//    }
+//
+//    @Test
+//    public void diagonalUtilityUPFirstHalf()
+//    {
+//        Board board = new Board();
+//
+//        Player first, second;
+//
+//        first = new HumanPlayer("P1", PieceType.RED);
+//        second = new HumanPlayer("P2", PieceType.BLACK);
+//
+//        board.putPiece(6, first.getPieceType());
+//
+//        board.putPiece(5, second.getPieceType());
+//        board.putPiece(5, first.getPieceType());
+//
+//        board.putPiece(4, second.getPieceType());
+//        board.putPiece(4, second.getPieceType());
+//        board.putPiece(4, first.getPieceType());
+//
+//        Assert.assertEquals((int)Math.pow(50, 3), board.diagonalUtility());
+//    }
+//
+//    @Test
+//    public void diagonalUtilityUPSecondHalf2()
+//    {
+//        Board board = new Board();
+//
+//        Player first, second;
+//
+//        first = new HumanPlayer("P1", PieceType.RED);
+//        second = new HumanPlayer("P2", PieceType.BLACK);
+//
+//        board.putPiece(1, first.getPieceType());
+//
+//        board.putPiece(2, second.getPieceType());
+//        board.putPiece(2, first.getPieceType());
+//
+//        Assert.assertEquals((int)Math.pow(50, 2)-50, board.diagonalUtility());
+//    }
+//
+//    @Test
+//    public void diagonalUtilityUPSecondHalf()
+//    {
+//        Board board = new Board();
+//
+//        Player first, second;
+//
+//        first = new HumanPlayer("P1", PieceType.RED);
+//        second = new HumanPlayer("P2", PieceType.BLACK);
+//
+//        board.putPiece(0, second.getPieceType());
+//        board.putPiece(0, first.getPieceType());
+//        board.putPiece(0, second.getPieceType());
+//        board.putPiece(0, first.getPieceType());
+//        board.putPiece(0, second.getPieceType());
+//
+//        board.putPiece(1, first.getPieceType());
+//        board.putPiece(1, second.getPieceType());
+//        board.putPiece(1, first.getPieceType());
+//        board.putPiece(1, second.getPieceType());
+//        board.putPiece(1, first.getPieceType());
+//        board.putPiece(1, second.getPieceType());
+//
+//        Assert.assertEquals(-(int)Math.pow(50, 2)+50, board.diagonalUtility());
+//    }
 }

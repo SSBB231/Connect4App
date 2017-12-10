@@ -389,7 +389,7 @@ public class Board {
         //------------------------ Vertical Utility -----------------------------------
     }
 
-    public int diagonalDownUtility()
+    public int diagonalUtility()
     {
         int value = 0;
         //------------------------ Vertical Utility -----------------------------------
@@ -399,6 +399,7 @@ public class Board {
 
         PieceType previous, current;
 
+        //Diagonal first half down=======================================================================
         for (int i = 0; i < numRows-1; i++) {
             for (int x = 0, y = i; x < numCols-1 && y < numRows-1; x++, y++) {
                 previous = board[y][x].getType();
@@ -436,7 +437,9 @@ public class Board {
                 }
             }
         }
+        //Diagonal first half down=======================================================================
 
+        //Diagonal second half down=======================================================================
         sameInACol = 1;
 
         for (int i = 1; i < numCols-1; i++) {
@@ -476,6 +479,92 @@ public class Board {
                 }
             }
         }
+        //Diagonal second half down=======================================================================
+
+        //Diagonal first half up=======================================================================
+        sameInACol = 1;
+
+        for (int i = 0; i <= numRows-2; i++) {
+            for (int x = numCols-1, y = i; x >= 1 && y <= numRows-2; x--, y++) {
+                previous = board[y][x].getType();
+                current = board[y+1][x-1].getType();
+
+                toAdd = previous.value;
+
+                if(previous == PieceType.NONE && current == PieceType.NONE)
+                    continue;
+
+                if(current != previous)
+                {
+                    if(toAdd < 0 && sameInACol % 2 == 0)
+                        value += -(int)Math.pow(toAdd, sameInACol);
+                    else
+                        value += (int)Math.pow(toAdd, sameInACol);
+
+                    sameInACol = 1;
+                }
+                else
+                {
+                    sameInACol++;
+                }
+
+                if(y == numRows-2)
+                {
+                    toAdd = current.value;
+
+                    if(toAdd < 0 && sameInACol % 2 == 0)
+                        value += -(int)Math.pow(toAdd, sameInACol);
+                    else
+                        value += (int)Math.pow(toAdd, sameInACol);
+
+                    sameInACol = 1;
+                }
+            }
+        }
+        //Diagonal first half up=======================================================================
+
+
+        //Diagonal SECOND half up=======================================================================
+        sameInACol = 1;
+
+        for (int i = numCols-2; i >= 1; i--) {
+            for (int x = i, y = 0; x >= 1 && y <= numRows-2; x--, y++) {
+                previous = board[y][x].getType();
+                current = board[y+1][x-1].getType();
+
+                toAdd = previous.value;
+
+                if(previous == PieceType.NONE && current == PieceType.NONE)
+                    continue;
+
+                if(current != previous)
+                {
+                    if(toAdd < 0 && sameInACol % 2 == 0)
+                        value += -(int)Math.pow(toAdd, sameInACol);
+                    else
+                        value += (int)Math.pow(toAdd, sameInACol);
+
+                    sameInACol = 1;
+                }
+                else
+                {
+                    sameInACol++;
+                }
+
+                if(x == 1)
+                {
+                    toAdd = current.value;
+
+                    if(toAdd < 0 && sameInACol % 2 == 0)
+                        value += -(int)Math.pow(toAdd, sameInACol);
+                    else
+                        value += (int)Math.pow(toAdd, sameInACol);
+
+                    sameInACol = 1;
+                }
+            }
+        }
+        //Diagonal SECOND half up=======================================================================
 
         return value;
         //------------------------ Vertical Utility -----------------------------------
