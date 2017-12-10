@@ -293,4 +293,29 @@ public class BoardTest {
 
         Assert.assertEquals((int)Math.pow(PieceType.RED.value, 3), board.diagonalDownUtility());
     }
+
+    @Test
+    public void diagonalUtilitySecondHalf()
+    {
+        Board board = new Board();
+
+        Player first, second;
+
+        first = new HumanPlayer("P1", PieceType.RED);
+        second = new HumanPlayer("P2", PieceType.BLACK);
+
+        board.putPiece(3, second.getPieceType());
+        board.putPiece(3, first.getPieceType());
+        board.putPiece(3, first.getPieceType());
+        board.putPiece(3, second.getPieceType());
+
+        board.putPiece(4, first.getPieceType());
+        board.putPiece(4, first.getPieceType());
+        board.putPiece(4, second.getPieceType());
+
+        board.putPiece(5, first.getPieceType());
+        board.putPiece(5, second.getPieceType());
+
+        Assert.assertEquals((int)Math.pow(-50, 3)+(int)Math.pow(50, 2)+(int)Math.pow(50, 3)-50, board.diagonalDownUtility());
+    }
 }

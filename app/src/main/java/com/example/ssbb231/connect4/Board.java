@@ -356,7 +356,7 @@ public class Board {
                     break;
                 else if(current != previous)
                 {
-                    if(toAdd < 0 && sameInACol >= 2)
+                    if(toAdd < 0 && sameInACol % 2 == 0)
                         value += -(int)Math.pow(toAdd, sameInACol);
                     else
                         value += (int)Math.pow(toAdd, sameInACol);
@@ -372,7 +372,7 @@ public class Board {
                 {
                     toAdd = current.value;
 
-                    if(toAdd < 0 && sameInACol >= 2)
+                    if(toAdd < 0 && sameInACol % 2 == 0)
                         value += -(int)Math.pow(toAdd, sameInACol);
                     else
                         value += (int)Math.pow(toAdd, sameInACol);
@@ -400,7 +400,7 @@ public class Board {
         PieceType previous, current;
 
         for (int i = 0; i < numRows-1; i++) {
-            for (int x = 0, y = i; x < numCols-1 && y < numRows-1; x++,y++) {
+            for (int x = 0, y = i; x < numCols-1 && y < numRows-1; x++, y++) {
                 previous = board[y][x].getType();
                 current = board[y+1][x+1].getType();
 
@@ -411,7 +411,7 @@ public class Board {
 
                 if(current != previous)
                 {
-                    if(toAdd < 0 && sameInACol >= 2)
+                    if(toAdd < 0 && sameInACol % 2 == 0)
                         value += -(int)Math.pow(toAdd, sameInACol);
                     else
                         value += (int)Math.pow(toAdd, sameInACol);
@@ -427,7 +427,7 @@ public class Board {
                 {
                     toAdd = current.value;
 
-                    if(toAdd < 0 && sameInACol >= 2)
+                    if(toAdd < 0 && sameInACol % 2 == 0)
                         value += -(int)Math.pow(toAdd, sameInACol);
                     else
                         value += (int)Math.pow(toAdd, sameInACol);
@@ -439,8 +439,8 @@ public class Board {
 
         sameInACol = 1;
 
-        for (int i = 1; i < numRows-1; i++) {
-            for (int x = i, y = 0; x < numCols-1 && y < numRows-1; x++,y++) {
+        for (int i = 1; i < numCols-1; i++) {
+            for (int x = i, y = 0; x < numCols-1 && y < numRows-1; x++, y++) {
                 previous = board[y][x].getType();
                 current = board[y+1][x+1].getType();
 
@@ -451,7 +451,7 @@ public class Board {
 
                 if(current != previous)
                 {
-                    if(toAdd < 0 && sameInACol >= 2)
+                    if(toAdd < 0 && sameInACol % 2 == 0)
                         value += -(int)Math.pow(toAdd, sameInACol);
                     else
                         value += (int)Math.pow(toAdd, sameInACol);
@@ -463,11 +463,11 @@ public class Board {
                     sameInACol++;
                 }
 
-                if(y == numRows-2)
+                if(x == numCols-2)
                 {
                     toAdd = current.value;
 
-                    if(toAdd < 0 && sameInACol >= 2)
+                    if(toAdd < 0 && sameInACol % 2 == 0)
                         value += -(int)Math.pow(toAdd, sameInACol);
                     else
                         value += (int)Math.pow(toAdd, sameInACol);
