@@ -69,6 +69,56 @@ public class BoardTest {
     }
 
     @Test
+    public void check4InARow()
+    {
+        Board board = new Board();
+        Player first, second;
+
+        first = new HumanPlayer("P1", PieceType.RED);
+        second = new HumanPlayer("P2", PieceType.BLACK);
+
+        int i;
+        for (i = 0; i < 4; i++) {
+            board.putPiece(i, first.getPieceType());
+        }
+
+        Assert.assertTrue(board.check4InARow(5, i-1, first.getPieceType()));
+    }
+
+
+    @Test
+    public void check4InARowDiagonalDown()
+    {
+        Board board = new Board();
+
+        Player first;
+        first = new HumanPlayer("P1", PieceType.RED);
+
+        int i;
+        for (i = 0; i < 4; i++) {
+            board.putPieceBypass(i, i, first.getPieceType());
+        }
+
+        Assert.assertTrue(board.check4InARow(i-1, i-1, first.getPieceType()));
+    }
+
+    @Test
+    public void check4InARowDiagonalUp()
+    {
+        Board board = new Board();
+
+        Player first;
+        first = new HumanPlayer("P1", PieceType.RED);
+
+        board.putPieceBypass(3, 0, first.getPieceType());
+        board.putPieceBypass(2, 1, first.getPieceType());
+        board.putPieceBypass(1, 2, first.getPieceType());
+        board.putPieceBypass(0, 3, first.getPieceType());
+
+        Assert.assertTrue(board.check4InARow(0, 3, first.getPieceType()));
+    }
+
+    @Test
     public void utilityOnePieceHorizontal()
     {
         Board board = new Board();

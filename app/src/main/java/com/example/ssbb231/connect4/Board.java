@@ -61,9 +61,11 @@ public class Board {
             if(isValidMove(i, col))
             {
                 putPiece(i, col, t);
+
                 break;
             }
         }
+
     }
 
     public void putPiece(int col, Piece p)
@@ -571,6 +573,16 @@ public class Board {
         //------------------------ Vertical Utility -----------------------------------
     }
 
+    public PieceType getPieceTypeAt(int row, int col)
+    {
+        if(!withinBounds(row, col))
+            return PieceType.NONE;
+        else
+        {
+            return board[row][col].getType();
+        }
+    }
+
     public boolean isFull()
     {
         for(int i = 0; i < board.length; i++)
@@ -690,6 +702,122 @@ public class Board {
 
         return false; //default
     }
+
+    public void putPieceBypass(int row, int col, PieceType t)
+    {
+        if(withinBounds(row, col))
+        {
+            board[row][col].setType(t);
+        }
+    }
+
+    public PieceType removePieceBypass(int row, int col)
+    {
+        PieceType retval = getPieceTypeAt(row, col);
+        putPieceBypass(row, col, PieceType.NONE);
+        return retval;
+    }
+
+    public boolean check4InARow(int row, int col, PieceType p){
+        //counts all start at 1 to account for piece just placed
+        int nsCount = 1;
+        int ewCount = 1;
+        int neswCount = 1;
+        int nwseCount = 1;
+
+        //CHECK NORTH
+        for(int i = row; i >= 0; i--){
+            if(getPieceTypeAt(i, col)==p){
+                nsCount++;
+            }
+            else{
+                break; //stops loop the minute the next piece isn't the same
+            }
+        }
+        //CHECK SOUTH
+        for(int i = row; i < this.numRows; i++){
+            if(getPieceTypeAt(i, col) == p){
+                nsCount++;
+            }
+            else{
+                break;
+            }
+        }
+        if(nsCount >= 4){
+            //four or more in a row vertically
+            return true;
+        }
+
+        // CHECK EAST
+        for(int i = col; i <this.numCols;i++){
+            if(getPieceTypeAt(row, i) == p){
+                ewCount++;
+            }
+            else{
+                break;
+            }
+        }
+        //CHECK WEST
+        for (int i = col; i >= 0;i--){
+            if(getPieceTypeAt(row, i) == p){
+                ewCount++;
+            }
+        }
+        if(ewCount >= 4){
+            //four or more in a row horizontally
+            return true;
+        }
+
+        //CHECK NORTH EAST
+        for(int i = row,j = col; i >= 0 && j < this.numCols; i--,j++){
+            if(getPieceTypeAt(i, j) == p){
+                neswCount++;
+            }
+            else {
+                break;
+            }
+        }
+        //CHECK SOUTH WEST
+        for(int i = row,j = col; i < this.numRows && j >= 0; i++,j--){
+            //this check s.w. direction
+            if(getPieceTypeAt(i, j) == p){
+                neswCount++;
+            }
+            else {
+                break;
+            }
+        }
+        if(neswCount >= 4){
+            //we have four or more in a row diagonally
+            return true;
+        }
+
+        //CHECK NORTH WEST
+        for(int i = row, j = col; i >= 0 && j >= 0; i--,j--){
+            if(getPieceTypeAt(i, j) == p){
+                nwseCount++;
+            }
+            else{
+                break;
+            }
+        }
+        //CHECK SOUTH EAST
+        for(int i = row, j = col; i < this.numRows && j < this.numCols; i++,j++){
+            if(getPieceTypeAt(i, j) == p){
+                nwseCount++;
+            }
+            else{
+                break;
+            }
+        }
+        if(nwseCount >= 4){
+            //we have 4 or more in a row diagonally
+            return true;
+        }
+
+        return false; //default
+    }
+
 
     public boolean checkWin()
     {
