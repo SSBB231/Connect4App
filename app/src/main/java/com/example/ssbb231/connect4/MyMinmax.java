@@ -10,49 +10,51 @@ public class MyMinmax implements Minmax {
 
     private int limit;
     private int depth;
+    private int move;
     private final Player first, second;
 
     public MyMinmax(int limit)
     {
         this.limit = limit;
+        this.depth = 0;
+        this.move = -1;
         first = new HumanPlayer("P1", PieceType.RED);
         second = new HumanPlayer("P2", PieceType.BLACK);
     }
 
     @Override
-    public int getMove() {
-        return 0;
+    public int getMove(Board state) {
+        return alphaBetaSearch(state);
     }
 
     private int alphaBetaSearch(Board state) {
-        Random random = new Random();
+//        Random random = new Random();
         Board stateCopy = state.deepCopy();
+        this.move = -1;
 
-        depth = 0;
+        maxValue(stateCopy, Integer.MIN_VALUE, Integer.MAX_VALUE, depth, limit);
 
-        int value = minValue(stateCopy, Integer.MIN_VALUE, Integer.MAX_VALUE, depth, limit);
-
-        for (int col = 0; col < stateCopy.getNumCols(); col++)
-        {
-            stateCopy.putPiece(col, second.getPieceType());
-            if(stateCopy.utility(second) == value)
-                return col;
-            stateCopy.removePiece(col);
-        }
+//        for (int col = 0; col < stateCopy.getNumCols(); col++)
+//        {
+//            stateCopy.putPiece(col, second.getPieceType());
+//            if(stateCopy.utility(second) == value)
+//                return col;
+//            stateCopy.removePiece(col);
+//        }
 
         depth++;
         limit++;
 
-        return random.nextInt(stateCopy.getNumCols());
+        return move;
     }
 
     private int maxValue(Board state, int alpha, int beta, int depth, int limit) {
 
         if(state.isWin())
         {
-            System.out.printf("BOTTOM %d\n", depth);
-            System.out.print(state.toString());
-            System.out.flush();
+//            System.out.printf("BOTTOM %d\n", depth);
+//            System.out.print(state.toString());
+//            System.out.flush();
             return state.utility(first);
         }
 
@@ -74,8 +76,11 @@ public class MyMinmax implements Minmax {
                 value = Math.max(value, minValue(state, alpha, beta, depth+1, limit));
                 state.removePiece(col);
 
-                if((value >= beta))
+                if((value >= beta)) {
+                    if(depth == 0)
+                        move = col;
                     return value;
+                }
 
                 alpha = Math.max(alpha, value);
             }
@@ -87,9 +92,9 @@ public class MyMinmax implements Minmax {
     {
         if(state.isWin())
         {
-            System.out.printf("BOTTOM %d\n", depth);
-            System.out.print(state.toString());
-            System.out.flush();
+//            System.out.printf("BOTTOM %d\n", depth);
+//            System.out.print(state.toString());
+//            System.out.flush();
             return state.utility(second);
         }
 
@@ -105,10 +110,12 @@ public class MyMinmax implements Minmax {
             if (state.isValidMove(col))
             {
                 state.putPiece(col, first.getPieceType());
-                value = Math.min(value, maxValue(state, alpha, beta, depth, limit));
+                value = Math.min(value, maxValue(state, alpha, beta, depth+1, limit));
                 state.removePiece(col);
 
                 if ((value <= alpha)) {
+                    if(depth == 0)
+                        move = col;
                     return value;
                 }
 

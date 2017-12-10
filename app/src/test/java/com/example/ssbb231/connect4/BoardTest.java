@@ -434,4 +434,66 @@ public class BoardTest {
 //
 //        Assert.assertEquals(-(int)Math.pow(50, 2)+50, board.diagonalUtility());
 //    }
+
+    @Test
+    public void checkRemoveCol()
+    {
+        Board board = new Board();
+
+        Player first, second;
+
+        first = new HumanPlayer("P1", PieceType.RED);
+        second = new HumanPlayer("P2", PieceType.BLACK);
+
+        board.putPiece(0, first.getPieceType());
+        board.putPiece(0, second.getPieceType());
+        board.putPiece(0, first.getPieceType());
+
+        board.putPiece(1, first.getPieceType());
+        board.putPiece(1, first.getPieceType());
+
+        board.putPiece(2, first.getPieceType());
+
+        board.removePiece(0);
+        board.removePiece(0);
+        board.removePiece(0);
+
+        board.removePiece(1);
+        board.removePiece(1);
+
+        board.removePiece(2);
+
+        Assert.assertTrue(board.isEmpty());
+    }
+
+    @Test
+    public void check4InARow1()
+    {
+        Board board = new Board();
+
+        Player first, second;
+
+        first = new HumanPlayer("P1", PieceType.RED);
+        second = new HumanPlayer("P2", PieceType.BLACK);
+
+        board.putPiece(0, first.getPieceType());
+        board.putPiece(0, second.getPieceType());
+        board.putPiece(0, first.getPieceType());
+
+        board.putPiece(1, first.getPieceType());
+        board.putPiece(1, first.getPieceType());
+
+        board.putPiece(2, first.getPieceType());
+
+        board.removePiece(0);
+        board.removePiece(0);
+        board.removePiece(0);
+
+        board.removePiece(1);
+        board.removePiece(1);
+
+        board.removePiece(2);
+
+        Assert.assertTrue(board.isEmpty());
+    }
 }

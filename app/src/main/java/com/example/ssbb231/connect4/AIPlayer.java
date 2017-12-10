@@ -1,5 +1,7 @@
 package com.example.ssbb231.connect4;
 
+import java.util.concurrent.ExecutorService;
+
 /**
  * Created by ssbb231 on 12/10/17.
  */
@@ -15,6 +17,8 @@ public class AIPlayer extends Player {
     public AIPlayer()
     {
         super("Computer", PieceType.BLACK);
+
+        minmax = new MyMinmax(5);
     }
 
     @Override

@@ -6,5 +6,5 @@ package com.example.ssbb231.connect4;
 
 public interface Minmax extends Runnable
 {
-    int getMove();
+    int getMove(Board state);
 }

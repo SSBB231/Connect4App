@@ -190,7 +190,7 @@ public class Board {
             this.filledValues[row] += 1;
         }
         //Check the spaces around the current piece to see if the win conditions are set.
-        if(checkWin())
+        if(check4InARow(row, col, p))
             this.isWin = true;
         else
             this.isWin = false;
@@ -209,6 +209,8 @@ public class Board {
             this.filledValues[row] -= 1;
         }
     }
+
+
 
     public PieceType removePiece(int col)
     {
@@ -282,6 +284,17 @@ public class Board {
         //The full search of the board while it has valid pieces. (call check4InARow)
         return false;
         */
+    }
+
+    public boolean isEmpty()
+    {
+        for (int i = numRows-1; i >= 0; i--) {
+            for (int j = numCols-1; j >= 0; j--) {
+                if(board[i][j].getType() != PieceType.NONE)
+                    return false;
+            }
+        }
+        return true;
     }
 
     public int horizontalUtility()
@@ -851,35 +864,71 @@ public class Board {
     }
 
 
-    public boolean checkWin()
-    {
-        //This checks horizontally---------------------------------
-        for (int i = 0; i < board.length; i++) {
-            int pieceInARow = 1;
-            PieceType previous, current;
-            for (int j = 0; j < board[0].length-1; j++) {
-                previous = board[i][j].getType();
-                current = board[i][j+1].getType();
-
-                if(previous != current) {
-                    pieceInARow = 1;
-                    continue;
-                }
-                else
-                {
-                    if(previous != PieceType.NONE && current != PieceType.NONE)
-                        pieceInARow++;
-                }
-
-                if(pieceInARow == 4) {
-                    isWin = true;
-                    return true;
-                }
-            }
-        }
-        //This checks horizontally---------------------------------
-
-        isWin = false;
-        return false;
-    }
+//    public boolean checkWin(final int row, final int col, final PieceType t)
+//    {
+//        int numInARow = 0;
+//        //Check left
+//        for (int i = col; i >= 0 ; i--) {
+//            if(getPieceTypeAt(row, i) == t)
+//                numInARow++;
+//            else
+//                break;
+//        }
+//
+//        //Check right
+//        for (int i = col; i < numCols; i++) {
+//            if(getPieceTypeAt(row, i) == t)
+//                numInARow++;
+//            else
+//                break;
+//        }
+//
+//        if(numInARow == 4)
+//        {
+//            this.isWin = true;
+//            return true;
+//        }
+//
+//        numInARow = 0;
+//
+//        //Check up
+//        for (int i = row; i >= 0 ; i--) {
+//            if(getPieceTypeAt(i, col) == t)
+//                numInARow++;
+//            else
+//                break;
+//        }
+//
+//        //Check down
+//        for (int i = row; i < numRows; i++) {
+//            if(getPieceTypeAt(i, col) == t)
+//                numInARow++;
+//            else
+//                break;
+//        }
+//
+//        if(numInARow == 4)
+//        {
+//            this.isWin = true;
+//            return true;
+//        }
+//
+//        numInARow = 0;
+//
+//        //Check up diagonal
+//        for (int i = row; i >= 0 ; i--) {
+//            if(getPieceTypeAt(row, i) == t)
+//                numInARow++;
+//            else
+//                break;
+//        }
+//
+//        //Check down
+//        for (int i = row; i < numRows; i++) {
+//            if(getPieceTypeAt(row, i) == t)
+//                numInARow++;
+//            else
+//                break;
+//        }
+//    }
 }
