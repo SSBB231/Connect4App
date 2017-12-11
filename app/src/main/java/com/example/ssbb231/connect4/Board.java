@@ -807,6 +807,9 @@ public class Board {
             if(getPieceTypeAt(row, i) == p){
                 ewCount++;
             }
+            else{
+                break;
+            }
         }
         if(ewCount >= 4){
             //four or more in a row horizontally
