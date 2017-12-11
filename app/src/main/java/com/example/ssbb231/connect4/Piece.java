@@ -27,6 +27,7 @@ public class Piece {
         if(this.getType().equals(p.getType())){
             return true;
         }
+
         return false;
     }
 
