@@ -31,16 +31,23 @@ public class MyMinmax implements Minmax {
 //        Random random = new Random();
         Board stateCopy = state.deepCopy();
         this.move = -1;
+        int util;
 
-        maxValue(stateCopy, Integer.MIN_VALUE, Integer.MAX_VALUE, depth, limit);
+        int value = maxValue(stateCopy, Integer.MIN_VALUE, Integer.MAX_VALUE, depth, limit);
 
-//        for (int col = 0; col < stateCopy.getNumCols(); col++)
-//        {
-//            stateCopy.putPiece(col, second.getPieceType());
-//            if(stateCopy.utility(second) == value)
-//                return col;
-//            stateCopy.removePiece(col);
-//        }
+        //Check states to see which one has the given value
+        for (int col = 0; col < stateCopy.getNumCols(); col++)
+        {
+            stateCopy.putPiece(col, second.getPieceType());
+            util = stateCopy.utility(second);
+
+            if(util == value) {
+                this.move = col;
+                return col;
+            }
+
+            stateCopy.removePiece(col);
+        }
 
         depth++;
         limit++;
@@ -76,11 +83,8 @@ public class MyMinmax implements Minmax {
                 value = Math.max(value, minValue(state, alpha, beta, depth+1, limit));
                 state.removePiece(col);
 
-                if((value >= beta)) {
-                    if(depth == 0)
-                        move = col;
+                if((value >= beta))
                     return value;
-                }
 
                 alpha = Math.max(alpha, value);
             }
@@ -113,11 +117,8 @@ public class MyMinmax implements Minmax {
                 value = Math.min(value, maxValue(state, alpha, beta, depth+1, limit));
                 state.removePiece(col);
 
-                if ((value <= alpha)) {
-                    if(depth == 0)
-                        move = col;
+                if ((value <= alpha))
                     return value;
-                }
 
                 beta = Math.min(beta, value);
             }

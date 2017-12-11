@@ -15,10 +15,10 @@ public class MyMinmaxTest {
     public void testMinMaxForWin()
     {
         Board board = new Board();
-        Minmax minmax = new MyMinmax(7);
+        Minmax minmax = new MyMinmax(2);
 
         for (int i = 0; i < 3; i++) {
-            board.putPiece(i, PieceType.BLACK);
+            board.putPiece(i, PieceType.RED);
         }
 
         int col = minmax.getMove(board);

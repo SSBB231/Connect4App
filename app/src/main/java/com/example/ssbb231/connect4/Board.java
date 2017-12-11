@@ -864,71 +864,107 @@ public class Board {
     }
 
 
-//    public boolean checkWin(final int row, final int col, final PieceType t)
-//    {
-//        int numInARow = 0;
-//        //Check left
-//        for (int i = col; i >= 0 ; i--) {
-//            if(getPieceTypeAt(row, i) == t)
-//                numInARow++;
-//            else
-//                break;
-//        }
-//
-//        //Check right
-//        for (int i = col; i < numCols; i++) {
-//            if(getPieceTypeAt(row, i) == t)
-//                numInARow++;
-//            else
-//                break;
-//        }
-//
-//        if(numInARow == 4)
-//        {
-//            this.isWin = true;
-//            return true;
-//        }
-//
-//        numInARow = 0;
-//
-//        //Check up
-//        for (int i = row; i >= 0 ; i--) {
-//            if(getPieceTypeAt(i, col) == t)
-//                numInARow++;
-//            else
-//                break;
-//        }
-//
-//        //Check down
-//        for (int i = row; i < numRows; i++) {
-//            if(getPieceTypeAt(i, col) == t)
-//                numInARow++;
-//            else
-//                break;
-//        }
-//
-//        if(numInARow == 4)
-//        {
-//            this.isWin = true;
-//            return true;
-//        }
-//
-//        numInARow = 0;
-//
-//        //Check up diagonal
-//        for (int i = row; i >= 0 ; i--) {
-//            if(getPieceTypeAt(row, i) == t)
-//                numInARow++;
-//            else
-//                break;
-//        }
-//
-//        //Check down
-//        for (int i = row; i < numRows; i++) {
-//            if(getPieceTypeAt(row, i) == t)
-//                numInARow++;
-//            else
-//                break;
-//        }
-//    }
+    public boolean checkWin(final int row, final int col, final PieceType t)
+    {
+        if(t == PieceType.NONE)
+            return false;
+
+        int numInARow = 0;
+        //Check left
+        for (int i = col; i >= 0 ; i--) {
+            if(getPieceTypeAt(row, i) == t)
+                numInARow++;
+            else
+                break;
+        }
+
+        //Check right
+        for (int i = col; i < numCols; i++) {
+            if(getPieceTypeAt(row, i) == t)
+                numInARow++;
+            else
+                break;
+        }
+
+        if(numInARow == 4)
+        {
+            this.isWin = true;
+            return true;
+        }
+
+        numInARow = 0;
+
+        //Check up
+        for (int i = row; i >= 0 ; i--) {
+            if(getPieceTypeAt(i, col) == t)
+                numInARow++;
+            else
+                break;
+        }
+
+        //Check down
+        for (int i = row; i < numRows; i++) {
+            if(getPieceTypeAt(i, col) == t)
+                numInARow++;
+            else
+                break;
+        }
+
+        if(numInARow == 4)
+        {
+            this.isWin = true;
+            return true;
+        }
+
+        numInARow = 0;
+
+        //Check / diagonal up
+        for (int x = col, y = row; x < numCols && y >= 0; x++, y--) {
+            if(getPieceTypeAt(y, x) == t)
+                numInARow++;
+            else
+                break;
+        }
+
+        //Check / diagonal
+        for (int x = col, y = row; x >= 0 && y < numRows; x--, y++) {
+            if(getPieceTypeAt(y, x) == t)
+                numInARow++;
+            else
+                break;
+        }
+
+        if(numInARow == 4)
+        {
+            this.isWin = true;
+            return true;
+        }
+
+        numInARow = 0;
+
+        //Check \ diagonal up
+        for (int x = col, y = row; x >= 0 && y >= 0; x--, y--) {
+            if(getPieceTypeAt(y, x) == t)
+                numInARow++;
+            else
+                break;
+        }
+
+        //Check \ diagonal
+        for (int x = col, y = row; x < numCols && y < numRows; x++, y++) {
+            if(getPieceTypeAt(y, x) == t)
+                numInARow++;
+            else
+                break;
+        }
+
+        if(numInARow == 4)
+        {
+            this.isWin = true;
+            return true;
+        }
+
+
+        return false;
+    }
 }

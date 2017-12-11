@@ -85,6 +85,26 @@ public class BoardTest {
         Assert.assertTrue(board.check4InARow(5, i-1, first.getPieceType()));
     }
 
+    @Test
+    public void check4InARowBrokenByBlack()
+    {
+        Board board = new Board();
+        Player first, second;
+
+        first = new HumanPlayer("P1", PieceType.RED);
+        second = new HumanPlayer("P2", PieceType.BLACK);
+
+        int i;
+        for (i = 0; i < 3; i++) {
+            board.putPiece(i, first.getPieceType());
+        }
+
+        board.putPiece(3, second.getPieceType());
+        board.putPiece(5, first.getPieceType());
+
+        Assert.assertFalse(board.check4InARow(5, board.getNumRows()-1, first.getPieceType()));
+    }
+
 
     @Test
     public void check4InARowDiagonalDown()
@@ -477,23 +497,11 @@ public class BoardTest {
         second = new HumanPlayer("P2", PieceType.BLACK);
 
         board.putPiece(0, first.getPieceType());
-        board.putPiece(0, second.getPieceType());
         board.putPiece(0, first.getPieceType());
 
         board.putPiece(1, first.getPieceType());
-        board.putPiece(1, first.getPieceType());
-
         board.putPiece(2, first.getPieceType());
 
-        board.removePiece(0);
-        board.removePiece(0);
-        board.removePiece(0);
-
-        board.removePiece(1);
-        board.removePiece(1);
-
-        board.removePiece(2);
-
-        Assert.assertTrue(board.isEmpty());
+        Assert.assertFalse(board.isWin());
     }
 }
