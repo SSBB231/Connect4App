@@ -771,7 +771,7 @@ public class Board {
         int nwseCount = 1;
 
         //CHECK NORTH
-        for(int i = row; i >= 0; i--){
+        for(int i = row-1; i >= 0; i--){
             if(getPieceTypeAt(i, col)==p){
                 nsCount++;
             }
@@ -780,7 +780,7 @@ public class Board {
             }
         }
         //CHECK SOUTH
-        for(int i = row; i < this.numRows; i++){
+        for(int i = row+1; i < this.numRows; i++){
             if(getPieceTypeAt(i, col) == p){
                 nsCount++;
             }
@@ -794,7 +794,7 @@ public class Board {
         }
 
         // CHECK EAST
-        for(int i = col; i <this.numCols;i++){
+        for(int i = col+1; i <this.numCols;i++){
             if(getPieceTypeAt(row, i) == p){
                 ewCount++;
             }
@@ -803,7 +803,7 @@ public class Board {
             }
         }
         //CHECK WEST
-        for (int i = col; i >= 0;i--){
+        for (int i = col-1; i >= 0;i--){
             if(getPieceTypeAt(row, i) == p){
                 ewCount++;
             }
@@ -814,7 +814,7 @@ public class Board {
         }
 
         //CHECK NORTH EAST
-        for(int i = row,j = col; i >= 0 && j < this.numCols; i--,j++){
+        for(int i = row-1,j = col+1; i >= 0 && j < this.numCols; i--,j++){
             if(getPieceTypeAt(i, j) == p){
                 neswCount++;
             }
@@ -823,7 +823,7 @@ public class Board {
             }
         }
         //CHECK SOUTH WEST
-        for(int i = row,j = col; i < this.numRows && j >= 0; i++,j--){
+        for(int i = row+1,j = col-1; i < this.numRows && j >= 0; i++,j--){
             //this check s.w. direction
             if(getPieceTypeAt(i, j) == p){
                 neswCount++;
@@ -838,7 +838,7 @@ public class Board {
         }
 
         //CHECK NORTH WEST
-        for(int i = row, j = col; i >= 0 && j >= 0; i--,j--){
+        for(int i = row-1, j = col-1; i >= 0 && j >= 0; i--,j--){
             if(getPieceTypeAt(i, j) == p){
                 nwseCount++;
             }
@@ -847,7 +847,7 @@ public class Board {
             }
         }
         //CHECK SOUTH EAST
-        for(int i = row, j = col; i < this.numRows && j < this.numCols; i++,j++){
+        for(int i = row+1, j = col+1; i < this.numRows && j < this.numCols; i++,j++){
             if(getPieceTypeAt(i, j) == p){
                 nwseCount++;
             }
