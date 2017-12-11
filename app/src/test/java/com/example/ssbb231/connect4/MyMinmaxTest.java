@@ -30,7 +30,7 @@ public class MyMinmaxTest {
     public void testMinMaxForSmartMove()
     {
         Board board = new Board();
-        Minmax minmax = new MyMinmax(7);
+        Minmax minmax = new MyMinmax(2);
 
         for (int i = 0; i < 2; i++) {
             board.putPiece(i, PieceType.RED);
@@ -38,7 +38,7 @@ public class MyMinmaxTest {
 
         int col = minmax.getMove(board);
 
-        Assert.assertEquals(2, col);
+        Assert.assertEquals(4, col);
     }
 
 

@@ -190,7 +190,7 @@ public class Board {
             this.filledValues[row] += 1;
         }
         //Check the spaces around the current piece to see if the win conditions are set.
-        if(check4InARow(row, col, p))
+        if(checkWin(row, col, p))
             this.isWin = true;
         else
             this.isWin = false;
@@ -882,7 +882,7 @@ public class Board {
         }
 
         //Check right
-        for (int i = col; i < numCols; i++) {
+        for (int i = col+1; i < numCols; i++) {
             if(getPieceTypeAt(row, i) == t)
                 numInARow++;
             else
@@ -906,7 +906,7 @@ public class Board {
         }
 
         //Check down
-        for (int i = row; i < numRows; i++) {
+        for (int i = row+1; i < numRows; i++) {
             if(getPieceTypeAt(i, col) == t)
                 numInARow++;
             else
@@ -929,8 +929,8 @@ public class Board {
                 break;
         }
 
-        //Check / diagonal
-        for (int x = col, y = row; x >= 0 && y < numRows; x--, y++) {
+        //Check / diagonal down
+        for (int x = col-1, y = row-1; x >= 0 && y < numRows; x--, y++) {
             if(getPieceTypeAt(y, x) == t)
                 numInARow++;
             else
@@ -954,7 +954,7 @@ public class Board {
         }
 
         //Check \ diagonal
-        for (int x = col, y = row; x < numCols && y < numRows; x++, y++) {
+        for (int x = col+1, y = row+1; x < numCols && y < numRows; x++, y++) {
             if(getPieceTypeAt(y, x) == t)
                 numInARow++;
             else

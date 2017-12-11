@@ -105,6 +105,60 @@ public class BoardTest {
         Assert.assertFalse(board.check4InARow(5, board.getNumRows()-1, first.getPieceType()));
     }
 
+    @Test
+    public void checkWinBrokenByBlackHorizonatl()
+    {
+        Board board = new Board();
+        Player first, second;
+
+        first = new HumanPlayer("P1", PieceType.RED);
+        second = new HumanPlayer("P2", PieceType.BLACK);
+
+        int i;
+        for (i = 0; i < 3; i++) {
+            board.putPiece(i, first.getPieceType());
+        }
+
+        board.putPiece(3, second.getPieceType());
+        board.putPiece(5, first.getPieceType());
+
+        Assert.assertFalse(board.checkWin(5, board.getNumRows()-1, first.getPieceType()));
+    }
+
+    @Test
+    public void checkWinVertical()
+    {
+        Board board = new Board();
+        Player first, second;
+
+        first = new HumanPlayer("P1", PieceType.RED);
+
+        int i;
+        for (i = 0; i < 4; i++) {
+            board.putPiece(0, first.getPieceType());
+        }
+
+        Assert.assertTrue(board.checkWin(2, 0, first.getPieceType()));
+    }
+
+    @Test
+    public void checkNonWin4Reds()
+    {
+        Board board = new Board();
+        Player first, second;
+
+        first = new HumanPlayer("P1", PieceType.RED);
+
+        int i;
+        for (i = 0; i < 3; i++) {
+            board.putPiece(i, first.getPieceType());
+        }
+
+        board.putPiece(0, first.getPieceType());
+
+        Assert.assertFalse(board.checkWin(4, 0, first.getPieceType()));
+    }
+
 
     @Test
     public void check4InARowDiagonalDown()

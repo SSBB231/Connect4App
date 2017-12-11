@@ -38,8 +38,8 @@ public class MyMinmax implements Minmax {
         //Check states to see which one has the given value
         for (int col = 0; col < stateCopy.getNumCols(); col++)
         {
-            stateCopy.putPiece(col, second.getPieceType());
-            util = stateCopy.utility(second);
+            stateCopy.putPiece(col, first.getPieceType());
+            util = stateCopy.utility(first);
 
             if(util == value) {
                 this.move = col;
@@ -62,14 +62,14 @@ public class MyMinmax implements Minmax {
 //            System.out.printf("BOTTOM %d\n", depth);
 //            System.out.print(state.toString());
 //            System.out.flush();
-            return state.utility(first);
+            return state.utility(second);
         }
 
         if(depth == limit)
-            return state.utility(first);
+            return state.utility(second);
 
         if(state.isFull())
-            return state.utility(first);
+            return state.utility(second);
 
         int value = Integer.MIN_VALUE;
 
@@ -79,7 +79,7 @@ public class MyMinmax implements Minmax {
             //Check if move valid.
             if(state.isValidMove(col))
             {
-                state.putPiece(col, second.getPieceType());
+                state.putPiece(col, first.getPieceType());
                 value = Math.max(value, minValue(state, alpha, beta, depth+1, limit));
                 state.removePiece(col);
 
@@ -99,21 +99,21 @@ public class MyMinmax implements Minmax {
 //            System.out.printf("BOTTOM %d\n", depth);
 //            System.out.print(state.toString());
 //            System.out.flush();
-            return state.utility(second);
+            return state.utility(first);
         }
 
         if(depth == limit)
-            return state.utility(second);
+            return state.utility(first);
 
         if(state.isFull())
-            return state.utility(second);
+            return state.utility(first);
 
         int value = Integer.MAX_VALUE;
 
         for (int col = 0; col < state.getNumCols(); col++) {
             if (state.isValidMove(col))
             {
-                state.putPiece(col, first.getPieceType());
+                state.putPiece(col, second.getPieceType());
                 value = Math.min(value, maxValue(state, alpha, beta, depth+1, limit));
                 state.removePiece(col);
 
