@@ -30,10 +30,10 @@
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="34dp"
-        android:layout_marginRight="34dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginRight="2dp"
         android:onClick="deleteAll"
-        android:text="Clear Leaderboard"
+        android:text="Clear Board"
         app:layout_constraintBottom_toTopOf="@+id/mylist"
         app:layout_constraintEnd_toEndOf="parent" />
 
