@@ -15,21 +15,15 @@
             android:exported="true" />
 
         <activity
-            android:name=".MainActivity"
-            android:screenOrientation="landscape">
-        </activity>
-        <activity
             android:name=".LeaderBoardActivity"
             android:screenOrientation="landscape" />
         <activity
             android:name=".PlayGame"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".MainScreen"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_fullscreen"
-            android:theme="@style/FullscreenTheme"
-            android:screenOrientation="landscape">
+            android:name=".MainActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
