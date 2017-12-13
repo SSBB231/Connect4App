@@ -11,6 +11,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:src="@drawable/ic_action_name"
+        android:onClick="startGame"
         app:elevation="20dp"
         app:backgroundTint="#ffea00"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -24,6 +25,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:src="@drawable/ic_action_two"
+        android:onClick="startGame"
         app:elevation="20dp"
         app:backgroundTint="#f44336"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -33,14 +35,31 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/button5"
+        android:src="@drawable/ic_action_leader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:text="Button"
+        android:onClick="startLeaderBoard"
         app:elevation="10dp"
         app:fabSize="normal"
-        app:backgroundTint="#9e9e9e"
+        app:backgroundTint="#039be5"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/bMusic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Button"
+        android:src="@drawable/ic_action_music"
+        android:onClick="displayName"
+        app:elevation="10dp"
+        app:fabSize="normal"
+        app:backgroundTint="#aa00ff"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>
