@@ -31,7 +31,7 @@ public abstract class Player implements Serializable{
 
     public Player(String name, PieceType pieceType)
     {
-        this(name, 0, 0, pieceType, -1, pieceType.first);
+        this(name, 0, 0, pieceType, -1, pieceType.winValue==Integer.MAX_VALUE);
     }
 
     public Player()

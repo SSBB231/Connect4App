@@ -6,14 +6,14 @@ import java.util.Random;
  * Created by ssbb231 on 12/10/17.
  */
 
-public class MyMinmax implements Minmax {
+public class MM implements Minmax {
 
     private int limit;
     private int depth;
     private int move;
     private final Player first, second;
 
-    public MyMinmax(int limit)
+    public MM(int limit)
     {
         this.limit = limit;
         this.depth = 0;
@@ -34,6 +34,9 @@ public class MyMinmax implements Minmax {
         int util;
 
         int value = minValue(stateCopy, Integer.MIN_VALUE, Integer.MAX_VALUE, depth, limit);
+
+        if(move == -1)
+            move = new Random().nextInt(7);
 
         depth++;
         limit++;
@@ -66,13 +69,11 @@ public class MyMinmax implements Minmax {
             //Check if move valid.
             if(state.isValidMove(col))
             {
-                state.putPiece(col, second.getPieceType());
+                state.putPiece(col, first.getPieceType());
                 value = Math.max(value, minValue(state, alpha, beta, depth+1, limit));
                 state.removePiece(col);
 
                 if((value >= beta)) {
-                    if(depth == 1)
-                        move = col;
                     return value;
                 }
 
@@ -103,11 +104,13 @@ public class MyMinmax implements Minmax {
         for (int col = 0; col < state.getNumCols(); col++) {
             if (state.isValidMove(col))
             {
-                state.putPiece(col, first.getPieceType());
+                state.putPiece(col, second.getPieceType());
                 value = Math.min(value, maxValue(state, alpha, beta, depth+1, limit));
                 state.removePiece(col);
 
                 if ((value <= alpha)) {
+                    if(depth == 0)
+                        move = col;
                     return value;
                 }
 

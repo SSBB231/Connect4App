@@ -6,13 +6,10 @@
     android:layout_height="match_parent"
     tools:context="com.example.ssbb231.connect4.MainActivity">
 
-    <!--android:layout_width="541dp"-->
-    <!--android:layout_height="285dp"-->
-
     <GridView
         android:id="@+id/gridview"
-        android:layout_width="0dp"
-        android:layout_height="343dp"
+        android:layout_width="641dp"
+        android:layout_height="385dp"
         android:columnWidth="40dp"
         android:gravity="center"
         android:horizontalSpacing="0dp"
@@ -22,9 +19,5 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginLeft="8dp" />
+        app:layout_constraintBottom_toBottomOf="parent"/>
 </android.support.constraint.ConstraintLayout>

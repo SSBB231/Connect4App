@@ -25,6 +25,29 @@ public class BoardTest {
     }
 
     @Test
+    public void testGreater()
+    {
+        Player first = new HumanPlayer("P1", PieceType.RED);
+        Player second = new HumanPlayer("P2", PieceType.BLACK);
+
+        Board board = new Board();
+        board.putPiece(0, first.getPieceType());
+
+        int less = board.utility(first);
+
+        board.putPiece(1, first.getPieceType());
+        int more = board.utility(first);
+
+        board.putPiece(0, second.getPieceType());
+
+        System.out.println("Less: " + less);
+        System.out.println("More: " + more);
+
+
+        Assert.assertFalse(less == more);
+    }
+
+    @Test
     public void invalidMoveInAir()
     {
         Board board = new Board();

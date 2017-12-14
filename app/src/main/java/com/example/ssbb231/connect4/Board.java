@@ -362,10 +362,7 @@ public class Board {
         //First, check for win. If win, return maximum value or minimum value depending on who the current player is
         if(isWin)
         {
-            if(currentPlayer.isPlayer1())
-                return Integer.MAX_VALUE;
-            else
-                return Integer.MIN_VALUE;
+            return currentPlayer.getPieceType().winValue;
         }
 
         //If the board is full and it wasn't a win, then it's a tie.
