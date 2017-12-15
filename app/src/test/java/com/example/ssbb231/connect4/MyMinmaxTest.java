@@ -13,17 +13,21 @@ public class MyMinmaxTest {
     public void testMinMaxForWin()
     {
         Board board = new Board();
-        Minmax minmax = new MM(7);
+        Minmax minmax = new SimpleMM(7);
 
-        int i = 0;
+        int i = 6;
         while(!board.isWin() && !board.isFull()) {
-            if (i % 2 == 0)
+            if (i % 2 == 0) {
+                System.out.println("------------- P1 Makes Move: " + i/2 + "----------------------");
                 board.putPieceTypeAtCol(i/2, PieceType.RED);
+            }
             else
                 board.putPieceTypeAtCol(minmax.getMove(board), PieceType.BLACK);
             System.out.println(board+"\n");
-            i++;
-            i%=8;
+            i--;
+
+            if(i < 0)
+                i = 7;
         }
 
         if(i % 2 == 1)
@@ -40,15 +44,15 @@ public class MyMinmaxTest {
     public void testMinMaxForSmartMove()
     {
         Board board = new Board();
-        Minmax minmax = new MyMinmax(2);
+        Minmax minmax = new SimpleMM(2);
 
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 3; i++) {
             board.putPieceTypeAtCol(i, PieceType.RED);
         }
 
         int col = minmax.getMove(board);
 
-        Assert.assertEquals(4, col);
+        Assert.assertEquals(3, col);
     }
 
 
