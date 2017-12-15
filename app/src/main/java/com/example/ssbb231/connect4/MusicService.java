@@ -16,12 +16,15 @@ public class MusicService extends Service {
         super.onCreate();
         player = MediaPlayer.create(this,
                 R.raw.braincandy);
-        player.setLooping(false);
+        player.setLooping(true);
+        player.setVolume(100,100);
+
     }
 
     @Override
     public void onDestroy() {
-        player.stop();   super.onDestroy();
+        player.stop();
+        super.onDestroy();
     }
 
     @Override
@@ -34,7 +37,7 @@ public class MusicService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        
+
         throw new UnsupportedOperationException("Not yet implemented");
     }
 }

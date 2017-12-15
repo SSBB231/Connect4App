@@ -1,24 +1,32 @@
 package com.example.ssbb231.connect4;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
+    private Intent musicSvc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        musicSvc = null;
     }
 
     public void toggleMusic(View view)
     {
-        /*
-        Logic to start or stop music in here
-         */
+        if(musicSvc == null){
+            musicSvc = new Intent(MainActivity.this, MusicService.class);
+            startService(musicSvc);
+        }
+        else{
+            stopService(musicSvc);
+            musicSvc = null;
+        }
     }
 
 
