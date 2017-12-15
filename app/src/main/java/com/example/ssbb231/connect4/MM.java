@@ -44,8 +44,10 @@ public class MM implements Minmax {
 
         int value = minValue(stateCopy, Integer.MIN_VALUE, Integer.MAX_VALUE, depth, limit);
 
-        if(move == -1)
+        if(move == -1) {
+            System.out.println("==== MADE RANDOM ========");
             move = new Random().nextInt(7);
+        }
 
         depth++;
         limit++;

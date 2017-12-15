@@ -13,7 +13,7 @@ public class MyMinmaxTest {
     public void testMinMaxForWin()
     {
         Board board = new Board();
-        Minmax minmax = new MM(9);
+        Minmax minmax = new MM(7);
 
         int i = 0;
         while(!board.isWin() && !board.isFull()) {
