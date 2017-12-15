@@ -4,10 +4,6 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import java.util.Random;
-
-import static org.junit.Assert.*;
-
 /**
  * Created by ssbb231 on 12/10/17.
  */
@@ -17,16 +13,26 @@ public class MyMinmaxTest {
     public void testMinMaxForWin()
     {
         Board board = new Board();
-        Minmax minmax = new MM(5);
+        Minmax minmax = new MM(7);
 
         int i = 0;
-        while(!board.isWin()) {
+        while(!board.isWin() && !board.isFull()) {
             if (i % 2 == 0)
-                board.putPiece(new Random().nextInt(7), PieceType.RED);
+                board.putPieceTypeAtCol(i/2, PieceType.RED);
             else
-                board.putPiece(minmax.getMove(board), PieceType.BLACK);
+                board.putPieceTypeAtCol(minmax.getMove(board), PieceType.BLACK);
             System.out.println(board+"\n");
             i++;
+            i%=7;
+        }
+
+        if(i % 2 == 0)
+        {
+            System.out.println("Winner is P1");
+        }
+        else
+        {
+            System.out.println("Winner is P2");
         }
     }
 
@@ -37,7 +43,7 @@ public class MyMinmaxTest {
         Minmax minmax = new MyMinmax(2);
 
         for (int i = 0; i < 2; i++) {
-            board.putPiece(i, PieceType.RED);
+            board.putPieceTypeAtCol(i, PieceType.RED);
         }
 
         int col = minmax.getMove(board);

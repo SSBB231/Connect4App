@@ -24,6 +24,8 @@ public class BoardTest {
         Assert.assertFalse(board.isValidMove(5, 0));
     }
 
+
+
     @Test
     public void testGreater()
     {
@@ -31,20 +33,43 @@ public class BoardTest {
         Player second = new HumanPlayer("P2", PieceType.BLACK);
 
         Board board = new Board();
-        board.putPiece(0, first.getPieceType());
+        board.putPieceTypeAtCol(0, first.getPieceType());
 
         int less = board.utility(first);
 
-        board.putPiece(1, first.getPieceType());
+        board.putPieceTypeAtCol(1, first.getPieceType());
         int more = board.utility(first);
 
-        board.putPiece(0, second.getPieceType());
+        board.putPieceTypeAtCol(0, second.getPieceType());
 
         System.out.println("Less: " + less);
         System.out.println("More: " + more);
 
 
         Assert.assertFalse(less == more);
+    }
+
+    @Test
+    public void testWin()
+    {
+        Player first = new HumanPlayer("P1", PieceType.RED);
+        Player second = new HumanPlayer("P2", PieceType.BLACK);
+
+        Board board = new Board();
+
+        board.putPieceTypeAtCol(0, first.getPieceType());
+        board.putPieceTypeAtCol(0, second.getPieceType());
+
+        board.putPieceTypeAtCol(1, first.getPieceType());
+        board.putPieceTypeAtCol(4, second.getPieceType());
+
+        board.putPieceTypeAtCol(2, first.getPieceType());
+        board.putPieceTypeAtCol(4, second.getPieceType());
+
+        board.putPieceTypeAtCol(3, first.getPieceType());
+
+        System.out.println(board);
+
     }
 
     @Test
@@ -60,9 +85,9 @@ public class BoardTest {
     {
         Board board = new Board();
         for (int i = 0; i < 10; i++) {
-            board.putPiece(0, PieceType.RED);
+            board.putPieceTypeAtCol(0, PieceType.RED);
         }
-        board.putPiece(1, PieceType.RED);
+        board.putPieceTypeAtCol(1, PieceType.RED);
         Assert.assertEquals(PieceType.RED, board.getBoard()[5][0].getType());
         Assert.assertEquals(PieceType.RED, board.getBoard()[4][0].getType());
         Assert.assertEquals(PieceType.RED, board.getBoard()[5][1].getType());
@@ -73,9 +98,9 @@ public class BoardTest {
     {
         Board board = new Board();
         for (int i = 0; i < board.getNumCols(); i++) {
-            board.putPiece(i, PieceType.RED);
+            board.putPieceTypeAtCol(i, PieceType.RED);
         }
-        board.putPiece(1, PieceType.RED);
+        board.putPieceTypeAtCol(1, PieceType.RED);
         for (int i = 0; i < board.getNumCols(); i++) {
             Assert.assertEquals(PieceType.RED, board.getBoard()[board.getNumRows()-1][i].getType());
         }
@@ -102,10 +127,10 @@ public class BoardTest {
 
         int i;
         for (i = 0; i < 4; i++) {
-            board.putPiece(i, first.getPieceType());
+            board.putPieceTypeAtCol(i, first.getPieceType());
         }
 
-        Assert.assertTrue(board.check4InARow(5, i-1, first.getPieceType()));
+        Assert.assertTrue(board.check4Win(5, i-1, first.getPieceType()));
     }
 
     @Test
@@ -119,13 +144,13 @@ public class BoardTest {
 
         int i;
         for (i = 0; i < 3; i++) {
-            board.putPiece(i, first.getPieceType());
+            board.putPieceTypeAtCol(i, first.getPieceType());
         }
 
-        board.putPiece(3, second.getPieceType());
-        board.putPiece(5, first.getPieceType());
+        board.putPieceTypeAtCol(3, second.getPieceType());
+        board.putPieceTypeAtCol(5, first.getPieceType());
 
-        Assert.assertFalse(board.check4InARow(5, board.getNumRows()-1, first.getPieceType()));
+        Assert.assertFalse(board.check4Win(5, board.getNumRows()-1, first.getPieceType()));
     }
 
     @Test
@@ -139,11 +164,11 @@ public class BoardTest {
 
         int i;
         for (i = 0; i < 3; i++) {
-            board.putPiece(i, first.getPieceType());
+            board.putPieceTypeAtCol(i, first.getPieceType());
         }
 
-        board.putPiece(3, second.getPieceType());
-        board.putPiece(5, first.getPieceType());
+        board.putPieceTypeAtCol(3, second.getPieceType());
+        board.putPieceTypeAtCol(5, first.getPieceType());
 
         Assert.assertFalse(board.checkWin(5, board.getNumRows()-1, first.getPieceType()));
     }
@@ -158,7 +183,7 @@ public class BoardTest {
 
         int i;
         for (i = 0; i < 4; i++) {
-            board.putPiece(0, first.getPieceType());
+            board.putPieceTypeAtCol(0, first.getPieceType());
         }
 
         Assert.assertTrue(board.checkWin(2, 0, first.getPieceType()));
@@ -174,10 +199,10 @@ public class BoardTest {
 
         int i;
         for (i = 0; i < 3; i++) {
-            board.putPiece(i, first.getPieceType());
+            board.putPieceTypeAtCol(i, first.getPieceType());
         }
 
-        board.putPiece(0, first.getPieceType());
+        board.putPieceTypeAtCol(0, first.getPieceType());
 
         Assert.assertFalse(board.checkWin(4, 0, first.getPieceType()));
     }
@@ -196,7 +221,7 @@ public class BoardTest {
             board.putPieceBypass(i, i, first.getPieceType());
         }
 
-        Assert.assertTrue(board.check4InARow(i-1, i-1, first.getPieceType()));
+        Assert.assertTrue(board.check4Win(i-1, i-1, first.getPieceType()));
     }
 
     @Test
@@ -212,7 +237,7 @@ public class BoardTest {
         board.putPieceBypass(1, 2, first.getPieceType());
         board.putPieceBypass(0, 3, first.getPieceType());
 
-        Assert.assertTrue(board.check4InARow(0, 3, first.getPieceType()));
+        Assert.assertTrue(board.check4Win(0, 3, first.getPieceType()));
     }
 
     @Test
@@ -227,7 +252,7 @@ public class BoardTest {
     public void utilityOnePieceVertical()
     {
         Board board = new Board();
-        board.putPiece(5, 6, PieceType.RED);
+        board.putPieceTypeAtCol(5, 6, PieceType.RED);
         Assert.assertEquals(50, board.verticalUtility());
     }
 
@@ -248,10 +273,10 @@ public class BoardTest {
     {
         Player human = new HumanPlayer("Player 2", PieceType.BLACK, false);
         Board board = new Board();
-        board.putPiece(5, 4, PieceType.BLACK);
-        board.putPiece(5, 3, PieceType.BLACK);
-        board.putPiece(5, 2, PieceType.BLACK);
-        board.putPiece(5, 1, PieceType.BLACK);
+        board.putPieceTypeAtCol(5, 4, PieceType.BLACK);
+        board.putPieceTypeAtCol(5, 3, PieceType.BLACK);
+        board.putPieceTypeAtCol(5, 2, PieceType.BLACK);
+        board.putPieceTypeAtCol(5, 1, PieceType.BLACK);
         Assert.assertEquals(Integer.MIN_VALUE, board.utility(human));
     }
 
@@ -260,7 +285,7 @@ public class BoardTest {
     {
         Player human = new HumanPlayer("Player 2", PieceType.RED, true);
         Board board = new Board();
-        board.putPiece(5, 4, human.getPieceType());
+        board.putPieceTypeAtCol(5, 4, human.getPieceType());
         Assert.assertEquals(50, board.horizontalUtility());
     }
 
@@ -269,8 +294,8 @@ public class BoardTest {
     {
         Player human = new HumanPlayer("Player 2", PieceType.RED, true);
         Board board = new Board();
-        board.putPiece(5, 4, human.getPieceType());
-        board.putPiece(5, 3, human.getPieceType());
+        board.putPieceTypeAtCol(5, 4, human.getPieceType());
+        board.putPieceTypeAtCol(5, 3, human.getPieceType());
         Assert.assertEquals((int)Math.pow(50, 2), board.horizontalUtility());
     }
 
@@ -279,9 +304,9 @@ public class BoardTest {
     {
         Player human = new HumanPlayer("Player 2", PieceType.RED, true);
         Board board = new Board();
-        board.putPiece(5, 4, human.getPieceType());
-        board.putPiece(5, 3, human.getPieceType());
-        board.putPiece(5, 2, human.getPieceType());
+        board.putPieceTypeAtCol(5, 4, human.getPieceType());
+        board.putPieceTypeAtCol(5, 3, human.getPieceType());
+        board.putPieceTypeAtCol(5, 2, human.getPieceType());
         Assert.assertEquals((int)Math.pow(50, 3), board.horizontalUtility());
     }
 
@@ -290,10 +315,10 @@ public class BoardTest {
     {
         Player human = new HumanPlayer("Player 2", PieceType.RED, true);
         Board board = new Board();
-        board.putPiece(5, 4, human.getPieceType());
-        board.putPiece(5, 3, PieceType.BLACK);
-        board.putPiece(5, 2, human.getPieceType());
-        board.putPiece(5, 1, human.getPieceType());
+        board.putPieceTypeAtCol(5, 4, human.getPieceType());
+        board.putPieceTypeAtCol(5, 3, PieceType.BLACK);
+        board.putPieceTypeAtCol(5, 2, human.getPieceType());
+        board.putPieceTypeAtCol(5, 1, human.getPieceType());
         Assert.assertEquals((int)Math.pow(50, 2), board.horizontalUtility());
     }
 
@@ -302,10 +327,10 @@ public class BoardTest {
     {
         Player human = new HumanPlayer("Player 2", PieceType.RED, true);
         Board board = new Board();
-        board.putPiece(5, 4, human.getPieceType());
-        board.putPiece(5, 3, PieceType.NONE);
-        board.putPiece(5, 2, human.getPieceType());
-        board.putPiece(5, 1, human.getPieceType());
+        board.putPieceTypeAtCol(5, 4, human.getPieceType());
+        board.putPieceTypeAtCol(5, 3, PieceType.NONE);
+        board.putPieceTypeAtCol(5, 2, human.getPieceType());
+        board.putPieceTypeAtCol(5, 1, human.getPieceType());
         Assert.assertEquals((int)Math.pow(50, 2)+50, board.horizontalUtility());
     }
 
@@ -314,10 +339,10 @@ public class BoardTest {
     {
         Player human = new HumanPlayer("Player 2", PieceType.RED, true);
         Board board = new Board();
-        board.putPiece(0, human.getPieceType());
-        board.putPiece(0, human.getPieceType());
-        board.putPiece(0, PieceType.BLACK);
-        board.putPiece(0, human.getPieceType());
+        board.putPieceTypeAtCol(0, human.getPieceType());
+        board.putPieceTypeAtCol(0, human.getPieceType());
+        board.putPieceTypeAtCol(0, PieceType.BLACK);
+        board.putPieceTypeAtCol(0, human.getPieceType());
         Assert.assertEquals((int)Math.pow(50, 2), board.verticalUtility());
     }
 
@@ -326,10 +351,10 @@ public class BoardTest {
     {
         Player human = new HumanPlayer("Player 2", PieceType.BLACK, false);
         Board board = new Board();
-        board.putPiece(0, human.getPieceType());
-        board.putPiece(0, human.getPieceType());
-        board.putPiece(0, PieceType.RED);
-        board.putPiece(0, human.getPieceType());
+        board.putPieceTypeAtCol(0, human.getPieceType());
+        board.putPieceTypeAtCol(0, human.getPieceType());
+        board.putPieceTypeAtCol(0, PieceType.RED);
+        board.putPieceTypeAtCol(0, human.getPieceType());
         Assert.assertEquals(-(int)Math.pow(50, 2), board.verticalUtility());
     }
 
@@ -338,15 +363,15 @@ public class BoardTest {
     {
         Player human = new HumanPlayer("Player 2", PieceType.BLACK, false);
         Board board = new Board();
-        board.putPiece(5, 4, human.getPieceType());
-        board.putPiece(5, 3, PieceType.RED);
-        board.putPiece(5, 2, human.getPieceType());
-        board.putPiece(5, 1, human.getPieceType());
+        board.putPieceTypeAtCol(5, 4, human.getPieceType());
+        board.putPieceTypeAtCol(5, 3, PieceType.RED);
+        board.putPieceTypeAtCol(5, 2, human.getPieceType());
+        board.putPieceTypeAtCol(5, 1, human.getPieceType());
 
-        board.putPiece(4, human.getPieceType());
-        board.putPiece(3, PieceType.RED);
-        board.putPiece(2, human.getPieceType());
-        board.putPiece(1, human.getPieceType());
+        board.putPieceTypeAtCol(4, human.getPieceType());
+        board.putPieceTypeAtCol(3, PieceType.RED);
+        board.putPieceTypeAtCol(2, human.getPieceType());
+        board.putPieceTypeAtCol(1, human.getPieceType());
 
         Assert.assertEquals(-2*((int)Math.pow(50, 2)), board.horizontalUtility());
     }
@@ -356,8 +381,8 @@ public class BoardTest {
     {
         Player human = new HumanPlayer("Player 2", PieceType.BLACK, false);
         Board board = new Board();
-        board.putPiece(0, human.getPieceType());
-        board.putPiece(0, PieceType.RED);
+        board.putPieceTypeAtCol(0, human.getPieceType());
+        board.putPieceTypeAtCol(0, PieceType.RED);
 
         Assert.assertEquals(0, board.horizontalUtility());
     }
@@ -369,7 +394,7 @@ public class BoardTest {
         Board board = new Board();
 
         for (int i = 0; i < board.getNumCols(); i++) {
-            board.putPiece(i, human.getPieceType());
+            board.putPieceTypeAtCol(i, human.getPieceType());
         }
 
         Assert.assertEquals(-50*7, board.verticalUtility());
@@ -388,7 +413,7 @@ public class BoardTest {
     {
         Player human = new HumanPlayer("Player 1", PieceType.RED, true);
         Board board = new Board();
-        board.putPiece(0, human.getPieceType());
+        board.putPieceTypeAtCol(0, human.getPieceType());
         Assert.assertEquals(3*50, board.utility(human));
     }
 
@@ -398,9 +423,9 @@ public class BoardTest {
         Board board = new Board();
         for (int i = 0; i < board.getNumRows(); i++) {
             if(i % 2 == 0)
-                board.putPiece(0, PieceType.RED);
+                board.putPieceTypeAtCol(0, PieceType.RED);
             else
-                board.putPiece(0, PieceType.BLACK);
+                board.putPieceTypeAtCol(0, PieceType.BLACK);
 
         }
         Assert.assertEquals(0, board.verticalUtility());
@@ -412,7 +437,7 @@ public class BoardTest {
         Board board = new Board();
         for (int i = board.getNumRows()-1; i>= 0; i--) {
             for (int j = board.getNumCols()-1; j >= 0; j--) {
-                board.putPiece(i, j, PieceType.RED);
+                board.putPieceTypeAtCol(i, j, PieceType.RED);
             }
         }
 
@@ -429,14 +454,14 @@ public class BoardTest {
         first = new HumanPlayer("P1", PieceType.RED);
         second = new HumanPlayer("P2", PieceType.BLACK);
 
-        board.putPiece(0, first.getPieceType());
-        board.putPiece(0, second.getPieceType());
-        board.putPiece(0, first.getPieceType());
+        board.putPieceTypeAtCol(0, first.getPieceType());
+        board.putPieceTypeAtCol(0, second.getPieceType());
+        board.putPieceTypeAtCol(0, first.getPieceType());
 
-        board.putPiece(1, first.getPieceType());
-        board.putPiece(1, first.getPieceType());
+        board.putPieceTypeAtCol(1, first.getPieceType());
+        board.putPieceTypeAtCol(1, first.getPieceType());
 
-        board.putPiece(2, first.getPieceType());
+        board.putPieceTypeAtCol(2, first.getPieceType());
 
         Assert.assertEquals((int)Math.pow(50, 3)+(int)Math.pow(50, 2)+100, board.diagonalUtility());
     }
@@ -451,17 +476,17 @@ public class BoardTest {
 //        first = new HumanPlayer("P1", PieceType.RED);
 //        second = new HumanPlayer("P2", PieceType.BLACK);
 //
-//        board.putPiece(3, second.getPieceType());
-//        board.putPiece(3, first.getPieceType());
-//        board.putPiece(3, first.getPieceType());
-//        board.putPiece(3, second.getPieceType());
+//        board.putPieceTypeAtCol(3, second.getPieceType());
+//        board.putPieceTypeAtCol(3, first.getPieceType());
+//        board.putPieceTypeAtCol(3, first.getPieceType());
+//        board.putPieceTypeAtCol(3, second.getPieceType());
 //
-//        board.putPiece(4, first.getPieceType());
-//        board.putPiece(4, first.getPieceType());
-//        board.putPiece(4, second.getPieceType());
+//        board.putPieceTypeAtCol(4, first.getPieceType());
+//        board.putPieceTypeAtCol(4, first.getPieceType());
+//        board.putPieceTypeAtCol(4, second.getPieceType());
 //
-//        board.putPiece(5, first.getPieceType());
-//        board.putPiece(5, second.getPieceType());
+//        board.putPieceTypeAtCol(5, first.getPieceType());
+//        board.putPieceTypeAtCol(5, second.getPieceType());
 //
 //        Assert.assertEquals((int)Math.pow(-50, 3)+(int)Math.pow(50, 2)+(int)Math.pow(50, 3)-50, board.diagonalUtility());
 //    }
@@ -476,14 +501,14 @@ public class BoardTest {
 //        first = new HumanPlayer("P1", PieceType.RED);
 //        second = new HumanPlayer("P2", PieceType.BLACK);
 //
-//        board.putPiece(6, first.getPieceType());
+//        board.putPieceTypeAtCol(6, first.getPieceType());
 //
-//        board.putPiece(5, second.getPieceType());
-//        board.putPiece(5, first.getPieceType());
+//        board.putPieceTypeAtCol(5, second.getPieceType());
+//        board.putPieceTypeAtCol(5, first.getPieceType());
 //
-//        board.putPiece(4, second.getPieceType());
-//        board.putPiece(4, second.getPieceType());
-//        board.putPiece(4, first.getPieceType());
+//        board.putPieceTypeAtCol(4, second.getPieceType());
+//        board.putPieceTypeAtCol(4, second.getPieceType());
+//        board.putPieceTypeAtCol(4, first.getPieceType());
 //
 //        Assert.assertEquals((int)Math.pow(50, 3), board.diagonalUtility());
 //    }
@@ -498,10 +523,10 @@ public class BoardTest {
 //        first = new HumanPlayer("P1", PieceType.RED);
 //        second = new HumanPlayer("P2", PieceType.BLACK);
 //
-//        board.putPiece(1, first.getPieceType());
+//        board.putPieceTypeAtCol(1, first.getPieceType());
 //
-//        board.putPiece(2, second.getPieceType());
-//        board.putPiece(2, first.getPieceType());
+//        board.putPieceTypeAtCol(2, second.getPieceType());
+//        board.putPieceTypeAtCol(2, first.getPieceType());
 //
 //        Assert.assertEquals((int)Math.pow(50, 2)-50, board.diagonalUtility());
 //    }
@@ -516,18 +541,18 @@ public class BoardTest {
 //        first = new HumanPlayer("P1", PieceType.RED);
 //        second = new HumanPlayer("P2", PieceType.BLACK);
 //
-//        board.putPiece(0, second.getPieceType());
-//        board.putPiece(0, first.getPieceType());
-//        board.putPiece(0, second.getPieceType());
-//        board.putPiece(0, first.getPieceType());
-//        board.putPiece(0, second.getPieceType());
+//        board.putPieceTypeAtCol(0, second.getPieceType());
+//        board.putPieceTypeAtCol(0, first.getPieceType());
+//        board.putPieceTypeAtCol(0, second.getPieceType());
+//        board.putPieceTypeAtCol(0, first.getPieceType());
+//        board.putPieceTypeAtCol(0, second.getPieceType());
 //
-//        board.putPiece(1, first.getPieceType());
-//        board.putPiece(1, second.getPieceType());
-//        board.putPiece(1, first.getPieceType());
-//        board.putPiece(1, second.getPieceType());
-//        board.putPiece(1, first.getPieceType());
-//        board.putPiece(1, second.getPieceType());
+//        board.putPieceTypeAtCol(1, first.getPieceType());
+//        board.putPieceTypeAtCol(1, second.getPieceType());
+//        board.putPieceTypeAtCol(1, first.getPieceType());
+//        board.putPieceTypeAtCol(1, second.getPieceType());
+//        board.putPieceTypeAtCol(1, first.getPieceType());
+//        board.putPieceTypeAtCol(1, second.getPieceType());
 //
 //        Assert.assertEquals(-(int)Math.pow(50, 2)+50, board.diagonalUtility());
 //    }
@@ -542,14 +567,14 @@ public class BoardTest {
         first = new HumanPlayer("P1", PieceType.RED);
         second = new HumanPlayer("P2", PieceType.BLACK);
 
-        board.putPiece(0, first.getPieceType());
-        board.putPiece(0, second.getPieceType());
-        board.putPiece(0, first.getPieceType());
+        board.putPieceTypeAtCol(0, first.getPieceType());
+        board.putPieceTypeAtCol(0, second.getPieceType());
+        board.putPieceTypeAtCol(0, first.getPieceType());
 
-        board.putPiece(1, first.getPieceType());
-        board.putPiece(1, first.getPieceType());
+        board.putPieceTypeAtCol(1, first.getPieceType());
+        board.putPieceTypeAtCol(1, first.getPieceType());
 
-        board.putPiece(2, first.getPieceType());
+        board.putPieceTypeAtCol(2, first.getPieceType());
 
         board.removePiece(0);
         board.removePiece(0);
@@ -573,11 +598,11 @@ public class BoardTest {
         first = new HumanPlayer("P1", PieceType.RED);
         second = new HumanPlayer("P2", PieceType.BLACK);
 
-        board.putPiece(0, first.getPieceType());
-        board.putPiece(0, first.getPieceType());
+        board.putPieceTypeAtCol(0, first.getPieceType());
+        board.putPieceTypeAtCol(0, first.getPieceType());
 
-        board.putPiece(1, first.getPieceType());
-        board.putPiece(2, first.getPieceType());
+        board.putPieceTypeAtCol(1, first.getPieceType());
+        board.putPieceTypeAtCol(2, first.getPieceType());
 
         Assert.assertFalse(board.isWin());
     }

@@ -23,12 +23,10 @@ public class Piece {
     {
         return this.pieceVal;
     }
-    public boolean equals(Piece p){
-        if(this.getType().equals(p.getType())){
-            return true;
-        }
 
-        return false;
+    public boolean equals(Piece p)
+    {
+        return this.pieceVal == p.pieceVal;
     }
 
     public void setType(PieceType t)

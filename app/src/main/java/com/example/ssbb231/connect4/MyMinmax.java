@@ -1,7 +1,5 @@
 package com.example.ssbb231.connect4;
 
-import java.util.Random;
-
 /**
  * Created by ssbb231 on 12/10/17.
  */
@@ -66,7 +64,7 @@ public class MyMinmax implements Minmax {
             //Check if move valid.
             if(state.isValidMove(col))
             {
-                state.putPiece(col, second.getPieceType());
+                state.putPieceTypeAtCol(col, second.getPieceType());
                 value = Math.max(value, minValue(state, alpha, beta, depth+1, limit));
                 state.removePiece(col);
 
@@ -103,7 +101,7 @@ public class MyMinmax implements Minmax {
         for (int col = 0; col < state.getNumCols(); col++) {
             if (state.isValidMove(col))
             {
-                state.putPiece(col, first.getPieceType());
+                state.putPieceTypeAtCol(col, first.getPieceType());
                 value = Math.min(value, maxValue(state, alpha, beta, depth+1, limit));
                 state.removePiece(col);
 

@@ -77,12 +77,12 @@ public class Board {
             this.filledValues[i] = 0;
     }
 
-    public void putPiece(int col, PieceType t)
+    public void putPieceTypeAtCol(int col, PieceType t)
     {
         for (int i = board.length-1; i >= 0 ; i--) {
             if(isValidMove(i, col))
             {
-                putPiece(i, col, t);
+                putPieceTypeAtCol(i, col, t);
                 break;
             }
         }
@@ -167,7 +167,7 @@ public class Board {
             this.filledValues[row] += 1;
         }
         //Check the spaces around the current piece to see if the win conditions are set.
-        if(check4InARow(row, col,p))
+        if(check4InARow(row, col, p))
             this.isWin = true;
         else
             this.isWin = false;
@@ -175,7 +175,7 @@ public class Board {
     }
 
     /**
-     * Optimal version of putPiece. Will not create a new Instance of Piece, but rather
+     * Optimal version of putPieceTypeAtCol. Will not create a new Instance of Piece, but rather
      * just change the type of the Pieces that are already instantiated and in the board.
      * Place a new piece into the board at the given position.
      * Checks to see if the user has just won the game as well.
@@ -183,14 +183,14 @@ public class Board {
      * @param col - The col index
      * @param p   - The piece to be passed in
      */
-    public void putPiece(int row, int col, PieceType p){
+    public void putPieceTypeAtCol(int row, int col, PieceType p){
         //Put the piece in the appropriate place if it can.
         if(isValidMove(row, col)) {
             this.board[row][col].setType(p);
             this.filledValues[row] += 1;
         }
         //Check the spaces around the current piece to see if the win conditions are set.
-        if(checkWin(row, col, p))
+        if(check4InARow(row, col, new Piece(p)))
             this.isWin = true;
         else
             this.isWin = false;
@@ -316,6 +316,11 @@ public class Board {
 
                 if(current != previous)
                 {
+                    if(previous == PieceType.RED && current == PieceType.BLACK && sameInARow == 3)
+                        return PieceType.BLACK.winValue/2;
+                    else if(previous == PieceType.BLACK && current == PieceType.RED && sameInARow == 3)
+                        return PieceType.RED.winValue/2;
+
                     if(toAdd < 0 && sameInARow >= 2)
                         value += -(int)Math.pow(toAdd, sameInARow);
                     else
@@ -401,6 +406,11 @@ public class Board {
                     break;
                 else if(current != previous)
                 {
+                    if(previous == PieceType.RED && current == PieceType.BLACK && sameInACol == 3)
+                        return PieceType.BLACK.winValue/2;
+                    else if(previous == PieceType.BLACK && current == PieceType.RED && sameInACol == 3)
+                        return PieceType.RED.winValue/2;
+
                     if(toAdd < 0 && sameInACol % 2 == 0)
                         value += -(int)Math.pow(toAdd, sameInACol);
                     else
@@ -457,6 +467,11 @@ public class Board {
 
                 if(current != previous)
                 {
+                    if(previous == PieceType.RED && current == PieceType.BLACK && sameInACol == 3)
+                        return PieceType.BLACK.winValue/2;
+                    else if(previous == PieceType.BLACK && current == PieceType.RED && sameInACol == 3)
+                        return PieceType.RED.winValue/2;
+
                     if(toAdd < 0 && sameInACol % 2 == 0)
                         value += -(int)Math.pow(toAdd, sameInACol);
                     else
@@ -499,6 +514,11 @@ public class Board {
 
                 if(current != previous)
                 {
+                    if(previous == PieceType.RED && current == PieceType.BLACK && sameInACol == 3)
+                        return PieceType.BLACK.winValue/2;
+                    else if(previous == PieceType.BLACK && current == PieceType.RED && sameInACol == 3)
+                        return PieceType.RED.winValue/2;
+
                     if(toAdd < 0 && sameInACol % 2 == 0)
                         value += -(int)Math.pow(toAdd, sameInACol);
                     else
@@ -541,6 +561,11 @@ public class Board {
 
                 if(current != previous)
                 {
+                    if(previous == PieceType.RED && current == PieceType.BLACK && sameInACol == 3)
+                        return PieceType.BLACK.winValue/2;
+                    else if(previous == PieceType.BLACK && current == PieceType.RED && sameInACol == 3)
+                        return PieceType.RED.winValue/2;
+
                     if(toAdd < 0 && sameInACol % 2 == 0)
                         value += -(int)Math.pow(toAdd, sameInACol);
                     else
@@ -584,6 +609,11 @@ public class Board {
 
                 if(current != previous)
                 {
+                    if(previous == PieceType.RED && current == PieceType.BLACK && sameInACol == 3)
+                        return PieceType.BLACK.winValue/2;
+                    else if(previous == PieceType.BLACK && current == PieceType.RED && sameInACol == 3)
+                        return PieceType.RED.winValue/2;
+
                     if(toAdd < 0 && sameInACol % 2 == 0)
                         value += -(int)Math.pow(toAdd, sameInACol);
                     else
@@ -760,7 +790,7 @@ public class Board {
         return retval;
     }
 
-    public boolean check4InARow(int row, int col, PieceType p){
+    public boolean check4Win(int row, int col, PieceType p){
         //counts all start at 1 to account for piece just placed
         int nsCount = 1;
         int ewCount = 1;
