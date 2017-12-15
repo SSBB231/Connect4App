@@ -23,7 +23,8 @@ public class PlayGame extends AppCompatActivity {
 
         if(getIntent().getBooleanExtra(AI, false))
         {
-            //THIS IS IF THERE IS AI
+            //I'll work on getting this one done soon
+//            game = AIGame();
         }
         else
         {
@@ -34,14 +35,28 @@ public class PlayGame extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
 
-                game.putPieceForCurrentPlayer(0);
-                game.switchPlayers();
-                Toast.makeText(PlayGame.this, game.toString(), Toast.LENGTH_SHORT).show();
-                
                 if(game.isOver())
                 {
                     Toast.makeText(PlayGame.this, "GAME OVER", Toast.LENGTH_SHORT).show();
+                    return;
                 }
+
+//                Toast.makeText(PlayGame.this, Integer.toString(position%7), Toast.LENGTH_SHORT).show();
+
+                //This will put piece for the current player and switchPlayers if placement was successful
+                boolean madeMove = game.putPieceForCurrentPlayer(position%7);
+
+                if(madeMove)
+                    Toast.makeText(PlayGame.this, game.getBoardString(), Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(PlayGame.this, "INVALID MOVE", Toast.LENGTH_SHORT).show();
+
+                if(game.isOver())
+                {
+                    Toast.makeText(PlayGame.this, "GAME OVER", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
             }
         });
     }

@@ -33,7 +33,7 @@ public class VersusGame implements Game{
     }
 
     @Override
-    public String getString() {
+    public String getBoardString() {
         return board.toString();
     }
 
@@ -88,9 +88,16 @@ public class VersusGame implements Game{
     }
 
     @Override
-    public void putPieceForCurrentPlayer(int col) {
+    public boolean putPieceForCurrentPlayer(int col) {
+        boolean retVal = false;
+
         if (!this.isOver()) {
-            board.putPieceTypeAtCol(col, currentPlayer.getPieceType());
+            retVal = board.putPieceTypeAtCol(col, currentPlayer.getPieceType());
+
+            if(retVal)
+                this.switchPlayers();
         }
+
+        return retVal;
     }
 }
