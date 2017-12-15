@@ -16,6 +16,7 @@ public class VersusGame implements Game{
         this.board = board;
         this.player1 = player1;
         this.player2 = player2;
+        this.currentPlayer = player1;
     }
 
     public VersusGame(Player player1, Player player2) {
@@ -29,6 +30,11 @@ public class VersusGame implements Game{
 
     public Board getBoard() {
         return board;
+    }
+
+    @Override
+    public String getString() {
+        return board.toString();
     }
 
     public void setBoard(Board board) {
@@ -65,7 +71,7 @@ public class VersusGame implements Game{
 
     @Override
     public void incrementNumberOfGames(Player player) {
-
+        player.setTotalGamesPlayed(player.getTotalGamesPlayed()+1);
     }
 
     @Override
@@ -83,6 +89,8 @@ public class VersusGame implements Game{
 
     @Override
     public void putPieceForCurrentPlayer(int col) {
-        board.putPieceTypeAtCol(col, currentPlayer.getPieceType());
+        if (!this.isOver()) {
+            board.putPieceTypeAtCol(col, currentPlayer.getPieceType());
+        }
     }
 }

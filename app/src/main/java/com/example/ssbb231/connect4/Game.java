@@ -14,4 +14,6 @@ public interface Game
     Player getCurrentPlayer();
     void switchPlayers();
     void putPieceForCurrentPlayer(int col);
+    Board getBoard();
+    String getString();
 }
