@@ -80,4 +80,9 @@ public class VersusGame implements Game{
         else
             currentPlayer = player2;
     }
+
+    @Override
+    public void putPieceForCurrentPlayer(int col) {
+        board.putPieceTypeAtCol(col, currentPlayer.getPieceType());
+    }
 }

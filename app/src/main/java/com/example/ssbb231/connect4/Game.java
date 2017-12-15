@@ -13,4 +13,5 @@ public interface Game
     void incrementNumberOfGames(Player plays);
     Player getCurrentPlayer();
     void switchPlayers();
+    void putPieceForCurrentPlayer(int col);
 }
