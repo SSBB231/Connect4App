@@ -606,4 +606,23 @@ public class BoardTest {
 
         Assert.assertFalse(board.isWin());
     }
+
+    @Test
+    public void check4InARowFalse()
+    {
+        Board board = new Board();
+
+        Player first, second;
+
+        first = new HumanPlayer("P1", PieceType.RED);
+        second = new HumanPlayer("P2", PieceType.BLACK);
+
+        board.putPieceTypeAtCol(0, first.getPieceType());
+        board.putPieceTypeAtCol(0, first.getPieceType());
+
+        board.putPieceTypeAtCol(1, first.getPieceType());
+        board.putPieceTypeAtCol(2, first.getPieceType());
+
+        Assert.assertFalse(board.checkWin(4, 2, first.getPieceType()));
+    }
 }

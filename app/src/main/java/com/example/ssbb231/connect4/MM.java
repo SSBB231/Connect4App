@@ -1,5 +1,8 @@
 package com.example.ssbb231.connect4;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -12,6 +15,7 @@ public class MM implements Minmax {
     private int depth;
     private int move;
     private final Player first, second;
+    private final List<Integer> choices;
 
     public MM(int limit)
     {
@@ -20,6 +24,11 @@ public class MM implements Minmax {
         this.move = -1;
         first = new HumanPlayer("P1", PieceType.RED);
         second = new HumanPlayer("P2", PieceType.BLACK);
+
+        choices = new ArrayList<>();
+        for (int i = 0; i < 7; i++) {
+            choices.add(i);
+        }
     }
 
     @Override
@@ -63,15 +72,17 @@ public class MM implements Minmax {
 
         int value = Integer.MIN_VALUE;
 
+        Collections.shuffle(choices);
         //For every action
         for(int col = 0; col < state.getNumCols(); col++)
         {
+            int choice = choices.get(col);
             //Check if move valid.
-            if(state.isValidMove(col))
+            if(state.isValidMove(choice))
             {
-                state.putPieceTypeAtCol(col, first.getPieceType());
+                state.putPieceTypeAtCol(choice, first.getPieceType());
                 value = Math.max(value, minValue(state, alpha, beta, depth+1, limit));
-                state.removePiece(col);
+                state.removePiece(choice);
 
                 if((value >= beta)) {
                     return value;

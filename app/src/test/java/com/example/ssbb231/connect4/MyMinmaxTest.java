@@ -13,7 +13,7 @@ public class MyMinmaxTest {
     public void testMinMaxForWin()
     {
         Board board = new Board();
-        Minmax minmax = new MM(7);
+        Minmax minmax = new MM(9);
 
         int i = 0;
         while(!board.isWin() && !board.isFull()) {
@@ -23,10 +23,10 @@ public class MyMinmaxTest {
                 board.putPieceTypeAtCol(minmax.getMove(board), PieceType.BLACK);
             System.out.println(board+"\n");
             i++;
-            i%=7;
+            i%=8;
         }
 
-        if(i % 2 == 0)
+        if(i % 2 == 1)
         {
             System.out.println("Winner is P1");
         }
