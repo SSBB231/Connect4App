@@ -30,6 +30,15 @@ public class ImageAdapter extends BaseAdapter {
         return 0;
     }
 
+    public void addPiece(int position,String color){
+        if(color == "RED"){
+            mThumbIds[position] = R.drawable.red;
+        }
+        else{
+            mThumbIds[position] = R.drawable.yellow;
+        }
+        notifyDataSetChanged(); // add this method
+    }
     // create a new ImageView for each item referenced by the Adapter
     public View getView(int position, View convertView, ViewGroup parent) {
         ImageView imageView;

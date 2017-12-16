@@ -6,6 +6,7 @@ import android.widget.GridView;
 import android.widget.AdapterView;
 import android.view.View;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 public class PlayGame extends AppCompatActivity {
@@ -19,7 +20,9 @@ public class PlayGame extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_game);
         GridView gridview = (GridView) findViewById(R.id.gridview);
-        gridview.setAdapter(new ImageAdapter(this));
+        final ImageAdapter imageAdapter = new ImageAdapter(this);
+        gridview.setAdapter(imageAdapter);
+        //gridview.setAdapter(new ImageAdapter(this));
 
         if(getIntent().getBooleanExtra(AI, false))
         {
@@ -45,11 +48,22 @@ public class PlayGame extends AppCompatActivity {
                 //This will put piece for the current player and switchPlayers if placement was successful
                 int madeMove = game.putPieceForCurrentPlayer(position%7);
 
-                if(madeMove != -1)
+                if(madeMove != -1) {
                     Toast.makeText(PlayGame.this, game.getBoardString(), Toast.LENGTH_SHORT).show();
-                else
+                    ImageView imageView = (ImageView) v;
+                    int imgPos = (madeMove * 7)+(position%7);
+                    if(game.getCurrentPlayer().getPieceType() == PieceType.RED){
+                        //imageView.setImageResource(R.drawable.red);
+                        imageAdapter.addPiece(imgPos,"RED");
+                    }
+                    else{
+                        //imageView.setImageResource(R.drawable.yellow);
+                        imageAdapter.addPiece(imgPos,"YELLOW");
+                    }
+                }
+                else {
                     Toast.makeText(PlayGame.this, "INVALID MOVE", Toast.LENGTH_SHORT).show();
-
+                }
                 if(game.isOver())
                 {
                     Toast.makeText(PlayGame.this, "GAME OVER", Toast.LENGTH_SHORT).show();
