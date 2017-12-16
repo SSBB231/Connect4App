@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         musicSvc = null;
-        song = 1;
+        song = 0;
     }
 
     public void toggleMusic(View view)
