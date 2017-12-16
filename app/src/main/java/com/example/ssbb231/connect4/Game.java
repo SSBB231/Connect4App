@@ -13,7 +13,7 @@ public interface Game
     void incrementNumberOfGames(Player plays);
     Player getCurrentPlayer();
     void switchPlayers();
-    boolean putPieceForCurrentPlayer(int col);
+    int putPieceForCurrentPlayer(int col);
     Board getBoard();
     String getBoardString();
 }

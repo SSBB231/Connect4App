@@ -77,16 +77,16 @@ public class Board {
             this.filledValues[i] = 0;
     }
 
-    public boolean putPieceTypeAtCol(int col, PieceType t)
+    public int putPieceTypeAtCol(int col, PieceType t)
     {
         for (int i = board.length-1; i >= 0 ; i--) {
             if(isValidMove(i, col))
             {
                 putPieceTypeAtCol(i, col, t);
-                return true;
+                return i;
             }
         }
-        return false;
+        return -1;
     }
 
     public void putPiece(int col, Piece p)

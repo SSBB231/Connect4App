@@ -88,13 +88,13 @@ public class VersusGame implements Game{
     }
 
     @Override
-    public boolean putPieceForCurrentPlayer(int col) {
-        boolean retVal = false;
+    public int putPieceForCurrentPlayer(int col) {
+        int retVal = -1;
 
         if (!this.isOver()) {
             retVal = board.putPieceTypeAtCol(col, currentPlayer.getPieceType());
 
-            if(retVal)
+            if(retVal != -1)
                 this.switchPlayers();
         }
 
