@@ -44,9 +44,9 @@ public class PlayGame extends AppCompatActivity {
 //                Toast.makeText(PlayGame.this, Integer.toString(position%7), Toast.LENGTH_SHORT).show();
 
                 //This will put piece for the current player and switchPlayers if placement was successful
-                boolean madeMove = game.putPieceForCurrentPlayer(position%7);
+                int madeMove = game.putPieceForCurrentPlayer(position%7);
 
-                if(madeMove)
+                if(madeMove != -1)
                     Toast.makeText(PlayGame.this, game.getBoardString(), Toast.LENGTH_SHORT).show();
                 else
                     Toast.makeText(PlayGame.this, "INVALID MOVE", Toast.LENGTH_SHORT).show();
