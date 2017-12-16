@@ -9,22 +9,28 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     private Intent musicSvc;
+    private int song;
+    public static final String SONG = "SONG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         musicSvc = null;
+        song = 1;
     }
 
     public void toggleMusic(View view)
     {
         if(musicSvc == null){
             musicSvc = new Intent(MainActivity.this, MusicService.class);
+            musicSvc.putExtra(SONG, song);
             startService(musicSvc);
         }
         else{
             stopService(musicSvc);
+            song++;
+            song %= 4;
             musicSvc = null;
         }
     }
