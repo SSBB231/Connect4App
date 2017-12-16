@@ -6,7 +6,7 @@ package com.example.ssbb231.connect4;
 
 public enum PieceType
 {
-    BLACK("B", -50, Integer.MIN_VALUE), RED("R", 50, Integer.MAX_VALUE), NONE("-", 0, 0);
+    BLACK("X", -50, Integer.MIN_VALUE), RED("O", 50, Integer.MAX_VALUE), NONE("-", 0, 0);
 
     public final String face;
     public final int value;
