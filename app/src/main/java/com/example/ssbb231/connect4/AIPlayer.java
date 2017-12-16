@@ -9,21 +9,24 @@ import java.util.concurrent.ExecutorService;
 public class AIPlayer extends Player {
 
     private Minmax minmax;
+    private Board board;
 
-    public AIPlayer(String name, int wins, int totalGamesPlayed, PieceType pieceType, int move, boolean player1) {
+    public AIPlayer(Board board, String name, int wins, int totalGamesPlayed, PieceType pieceType, int move, boolean player1) {
         super(name, wins, totalGamesPlayed, pieceType, move, player1);
+        this.board = board;
+        minmax = new TryMM1(7);
     }
 
-    public AIPlayer()
+    public AIPlayer(Board board)
     {
-        super("Computer", PieceType.BLACK);
-
-        minmax = new MyMinmax(5);
+        super("AndroidX7", PieceType.BLACK);
+        this.board = board;
+        minmax = new TryMM1(7);
     }
 
     @Override
     public void setMove(int move) {
-
+        this.move = minmax.getMove(board);
     }
 
 }

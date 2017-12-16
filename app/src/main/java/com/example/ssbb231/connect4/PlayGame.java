@@ -23,8 +23,7 @@ public class PlayGame extends AppCompatActivity {
 
         if(getIntent().getBooleanExtra(AI, false))
         {
-            //I'll work on getting this one done soon
-//            game = AIGame();
+            game = new AIGame("P1");
         }
         else
         {
