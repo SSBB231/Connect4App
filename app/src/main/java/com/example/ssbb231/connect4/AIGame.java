@@ -62,16 +62,19 @@ public class AIGame implements Game {
 
     @Override
     public int putPieceForCurrentPlayer(int col) {
-        return board.putPieceTypeAtCol(col, first.getPieceType());
+        currentPlayer.setMove(col);
+        int madeMove = board.putPieceTypeAtCol(currentPlayer.getMove(), currentPlayer.getPieceType());
+
+        return madeMove;
     }
 
     @Override
     public Board getBoard() {
-        return null;
+        return board;
     }
 
     @Override
     public String getBoardString() {
-        return null;
+        return board.toString();
     }
 }

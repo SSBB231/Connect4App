@@ -93,9 +93,6 @@ public class VersusGame implements Game{
 
         if (!this.isOver()) {
             retVal = board.putPieceTypeAtCol(col, currentPlayer.getPieceType());
-
-            if(retVal != -1)
-                this.switchPlayers();
         }
 
         return retVal;
