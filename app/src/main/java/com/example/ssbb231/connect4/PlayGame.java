@@ -54,7 +54,7 @@ public class PlayGame extends AppCompatActivity {
                 int madeMove = game.putPieceForCurrentPlayer(position%7);
 
                 if(madeMove != -1) {
-                    Toast.makeText(PlayGame.this, game.getBoardString(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(PlayGame.this, game.getBoardString(), Toast.LENGTH_SHORT).show();
                     ImageView imageView = (ImageView) v;
                     int imgPos = (madeMove * 7)+(position%7);
                     if(game.getCurrentPlayer().getPieceType() == PieceType.RED){
@@ -97,7 +97,7 @@ public class PlayGame extends AppCompatActivity {
                     int madeMove = game.putPieceForCurrentPlayer(position%7);
 
                     if(madeMove != -1) {
-                    Toast.makeText(PlayGame.this, game.getBoardString(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(PlayGame.this, game.getBoardString(), Toast.LENGTH_SHORT).show();
                         ImageView imageView = (ImageView) v;
                         int imgPos;
 
