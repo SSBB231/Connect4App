@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Observable;
 
 import static com.example.ssbb231.connect4.DatabaseOpenHelper.LOSS;
 import static com.example.ssbb231.connect4.DatabaseOpenHelper.TABLE_NAME;
@@ -172,6 +173,9 @@ public class LeaderBoardActivity extends AppCompatActivity {
             if (db == null) db = dbHelper.getWritableDatabase();
             // add to db
             if(!hasEntry(input)) {
+
+                PlayGame.observable.notifyObservers(new NewPlayerAchievement(findViewById(R.id.clLB), "New Player "+ input + " Added to Leader Board!"));
+
                 Toast.makeText(getApplicationContext(), "Adding " + input, Toast.LENGTH_SHORT).show();
                 cv.put(DatabaseOpenHelper.ITEM, input);
                 if(won) {  //Update the win col
