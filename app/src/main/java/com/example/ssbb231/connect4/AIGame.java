@@ -38,6 +38,16 @@ public class AIGame implements Game {
     }
 
     @Override
+    public Player getPlayer1() {
+        return first;
+    }
+
+    @Override
+    public Player getPlayer2() {
+        return second;
+    }
+
+    @Override
     public void incrementNumberOfWins(Player player) {
         player.incrementWins();
     }

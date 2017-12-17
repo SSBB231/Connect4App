@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#e0f7fa"
     tools:context="com.example.ssbb231.connect4.MainActivity">
 
     <android.support.design.widget.FloatingActionButton
@@ -13,7 +14,7 @@
         android:src="@drawable/ic_action_name"
         android:onClick="startGame"
         app:elevation="20dp"
-        app:backgroundTint="#ffea00"
+        app:backgroundTint="#ffee58"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -27,7 +28,7 @@
         android:src="@drawable/ic_action_two"
         android:onClick="startGame"
         app:elevation="20dp"
-        app:backgroundTint="#f44336"
+        app:backgroundTint="#ef5350"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -44,7 +45,7 @@
         android:onClick="startLeaderBoard"
         app:elevation="10dp"
         app:fabSize="normal"
-        app:backgroundTint="#039be5"
+        app:backgroundTint="#b2ff59"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -59,7 +60,7 @@
         android:onClick="toggleMusic"
         app:elevation="10dp"
         app:fabSize="normal"
-        app:backgroundTint="#aa00ff"
+        app:backgroundTint="#ea80fc"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

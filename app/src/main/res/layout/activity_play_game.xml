@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#fff3e0"
     tools:context="com.example.ssbb231.connect4.MainActivity">
 
     <GridView

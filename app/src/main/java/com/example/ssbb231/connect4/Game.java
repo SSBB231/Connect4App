@@ -9,6 +9,8 @@ public interface Game
     boolean isOver();
     void setPlayer1(Player player1);
     void setPlayer2(Player player2);
+    Player getPlayer1();
+    Player getPlayer2();
     void incrementNumberOfWins(Player player);
     void incrementNumberOfGames(Player plays);
     Player getCurrentPlayer();
