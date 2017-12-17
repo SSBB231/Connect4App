@@ -1,11 +1,16 @@
 package com.example.ssbb231.connect4;
 
+import android.app.ActivityManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private Intent musicSvc;
@@ -39,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     public void startLeaderBoard(View view)
     {
         Intent leader = new Intent(this, LeaderBoardActivity.class);
+        leader.putExtra(LeaderBoardActivity.DATA, false);
         startActivity(leader);
     }
 
@@ -62,4 +68,5 @@ public class MainActivity extends AppCompatActivity {
     {
         Toast.makeText(this, "Clicked", Toast.LENGTH_SHORT).show();
     }
+
 }

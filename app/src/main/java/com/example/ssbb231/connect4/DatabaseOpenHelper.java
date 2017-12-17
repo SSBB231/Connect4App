@@ -12,12 +12,14 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseOpenHelper extends SQLiteOpenHelper {
     final static String TABLE_NAME = "leaderboard";
     final static String ITEM = "item";
+    final static String WINS = "wins";
+    final static String LOSS = "loss";
     final static String _ID = "_id";
 
 
     final private static String CREATE_CMD =
             "CREATE TABLE leaderboard (" + _ID +
-                    " INTEGER PRIMARY KEY AUTOINCREMENT, " +ITEM + " TEXT)";
+                    " INTEGER PRIMARY KEY AUTOINCREMENT, " +ITEM + " TEXT," + WINS + " TEXT," + LOSS + " TEXT)";
 
     final private static String NAME = "todo_db";
     final private static Integer VERSION = 2;

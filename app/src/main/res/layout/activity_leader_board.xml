@@ -4,38 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.ssbb231.connect4.LeaderBoardActivity">
+    tools:context="com.example.ssbb231.connect4.LeaderBoardActivity"
+    tools:layout_editor_absoluteY="25dp">
 
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="addElem"
-        android:text="Add"
+        android:onClick="goToMainMenu"
+        android:text="Return to Main Menu"
         app:layout_constraintStart_toStartOf="@+id/mylist"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/input"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="2dp"
-        android:layout_marginStart="19dp"
-        android:layout_marginLeft="19dp"
-        android:hint="Enter here"
-        app:layout_constraintBottom_toTopOf="@+id/mylist"
-        app:layout_constraintStart_toEndOf="@+id/button" />
 
     <Button
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="2dp"
-        android:layout_marginRight="2dp"
         android:onClick="deleteAll"
-        android:text="Clear Board"
+        android:text="Clear LeaderBoard"
         app:layout_constraintBottom_toTopOf="@+id/mylist"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="@+id/mylist" />
 
     <ListView
         android:id="@+id/mylist"
