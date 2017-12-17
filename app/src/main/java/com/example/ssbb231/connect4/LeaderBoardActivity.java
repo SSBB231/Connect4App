@@ -21,17 +21,23 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import static com.example.ssbb231.connect4.DatabaseOpenHelper.LOSS;
 import static com.example.ssbb231.connect4.DatabaseOpenHelper.TABLE_NAME;
 import static com.example.ssbb231.connect4.DatabaseOpenHelper.WINS;
+import static com.example.ssbb231.connect4.Constants.FIRST_COLUMN;
+import static com.example.ssbb231.connect4.Constants.SECOND_COLUMN;
+import static com.example.ssbb231.connect4.Constants.THIRD_COLUMN;
+
 
 public class LeaderBoardActivity extends AppCompatActivity {
     final static String DATA = "hasData";
 
     private EditText elem;
     private ListView listView;
-    public SimpleCursorAdapter myAdapter;
+    public ListViewAdapter myAdapter;
     private AlertDialog actions;
     private int currentPos, exists;
     private SQLiteDatabase db = null;
@@ -40,7 +46,7 @@ public class LeaderBoardActivity extends AppCompatActivity {
     private String currentName;
     private String[] columns = new String[]{"_id", DatabaseOpenHelper.ITEM, DatabaseOpenHelper.WINS, DatabaseOpenHelper.LOSS};
     private boolean hasData, won;
-
+    private ArrayList<HashMap<String, String>> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +58,11 @@ public class LeaderBoardActivity extends AppCompatActivity {
                 WINS + " desc," + LOSS + " asc");
 
         listView = (ListView) findViewById(R.id.mylist);
-
+        list = new ArrayList<HashMap<String,String>>();
+        updateList();
+        myAdapter = new ListViewAdapter(this, list);
+        listView.setAdapter(myAdapter);
+        /*
         myAdapter = new SimpleCursorAdapter(this,
                 android.R.layout.simple_list_item_1,
                 mCursor,
@@ -60,22 +70,18 @@ public class LeaderBoardActivity extends AppCompatActivity {
                 new int[]{android.R.id.text1});
 
         listView.setAdapter(myAdapter);
+        */
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String task = ((TextView) view).getText().toString();
-
-                currentPos = position;
+                currentPos = position++;
                 mCursor.moveToPosition(currentPos);
                 String itemName = mCursor.getString(mCursor.getColumnIndex("item"));
                 String wins = mCursor.getString(mCursor.getColumnIndex("wins"));
-                String losses = mCursor.getString(mCursor.getColumnIndex("loss"));                //db.delete(TABLE_NAME, "item=?", new String[]{task});
-
-                //String itemNam
+                String losses = mCursor.getString(mCursor.getColumnIndex("loss"));
                 Toast.makeText(getApplicationContext(), "Item: " + itemName + " Wins: " + wins + " Losses: " + losses, Toast.LENGTH_SHORT).show();
-                //contentVals.put(DatabaseOpenHelper.ITEM, "Done: " + task);
-                //db.insert(TABLE_NAME, null, contentVals);
+
                 mCursor.requery();
-                myAdapter.notifyDataSetChanged();
                 exists = 1;
                 currentName = itemName;
             }
@@ -83,14 +89,14 @@ public class LeaderBoardActivity extends AppCompatActivity {
         });
 
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-                                                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                                                    Toast.makeText(getApplicationContext(), "Removing " + ((TextView) view).getText(), Toast.LENGTH_SHORT).show();
-                                                    currentPos = position;
-                                                    actions.show();
-                                                    return true;
-                                                }
-                                            }
-        );
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                currentPos = position++;
+                Toast.makeText(getApplicationContext(), "Removing ", Toast.LENGTH_SHORT).show();
+                actions.show();
+                return true;
+            }
+        });
 
         //elem = (EditText) findViewById(R.id.input);
 
@@ -102,7 +108,6 @@ public class LeaderBoardActivity extends AppCompatActivity {
         builder.setItems(options, actionListener);
         builder.setNegativeButton("Cancel", null);
         actions = builder.create();
-        //Add a couple of exercises to the list initially
 
         int count = listView.getAdapter().getCount();
 
@@ -132,8 +137,10 @@ public class LeaderBoardActivity extends AppCompatActivity {
                             String rowId = mCursor.getString(0);  // get the id
                             if (db == null) db = dbHelper.getWritableDatabase();
                             db.delete(dbHelper.TABLE_NAME, "_id = ?", new String[]{rowId});
+                            updateList();
+                            myAdapter = new ListViewAdapter(LeaderBoardActivity.this, list);
+                            listView.setAdapter(myAdapter);
                             mCursor.requery();
-                            myAdapter.notifyDataSetChanged();
                             //
                             // remove item from DB
                             break;
@@ -177,8 +184,10 @@ public class LeaderBoardActivity extends AppCompatActivity {
                 }
 
                 db.insert(TABLE_NAME, null, cv);
+                updateList();
+                myAdapter = new ListViewAdapter(LeaderBoardActivity.this, list);
+                listView.setAdapter(myAdapter);
                 mCursor.requery();
-                myAdapter.notifyDataSetChanged();
             }
             else {        //update db
                 String selectString = "SELECT * FROM " + TABLE_NAME + " WHERE " + "item=?";
@@ -202,6 +211,10 @@ public class LeaderBoardActivity extends AppCompatActivity {
                     }
                     Toast.makeText(getApplicationContext(), "Updating " + input, Toast.LENGTH_SHORT).show();
                     db.update(TABLE_NAME, cv, "item=?", new String[]{input});
+                    updateList();
+                    myAdapter = new ListViewAdapter(LeaderBoardActivity.this, list);
+                    listView.setAdapter(myAdapter);
+                    mCursor.requery();
                 }
                 tCursor.close();
             }
@@ -209,14 +222,11 @@ public class LeaderBoardActivity extends AppCompatActivity {
     }
 
     public void deleteAll(View v) {
-        int len = myAdapter.getCount();
-        for (int i = len - 1; i >= 0; i--) {
-            TextView t = (TextView) listView.getChildAt(i);
-            String task = t.getText().toString();
-            db.delete(TABLE_NAME, "item=?", new String[]{task});
-            mCursor.requery();
-            myAdapter.notifyDataSetChanged();
-        }
+        db.delete(DatabaseOpenHelper.TABLE_NAME, null, null);
+        updateList();
+        mCursor.requery();
+        myAdapter = new ListViewAdapter(LeaderBoardActivity.this, list);
+        listView.setAdapter(myAdapter);
     }
 
     /** Called when the customer clicks the button to go back to the main menu
@@ -243,5 +253,26 @@ public class LeaderBoardActivity extends AppCompatActivity {
         cursor.close();
         //db.close();
         return hasEntry;
+    }
+
+    private void updateList(){
+        list = new ArrayList<HashMap<String,String>>();
+        if (db == null) db = dbHelper.getWritableDatabase();
+        Cursor tempCursor = db.query(TABLE_NAME, columns, null, null, null, null,
+                WINS + " desc," + LOSS + " asc");
+        if(tempCursor.moveToFirst()){
+            do{
+                String nameStr = tempCursor.getString(tempCursor.getColumnIndex("item"));
+                String winStr = tempCursor.getString(tempCursor.getColumnIndex("wins"));
+                String losStr = tempCursor.getString(tempCursor.getColumnIndex("loss"));
+
+                HashMap<String,String> temp = new HashMap<String, String>();
+                temp.put(FIRST_COLUMN, nameStr);
+                temp.put(SECOND_COLUMN, "Wins: " + winStr);
+                temp.put(THIRD_COLUMN, "Losses: " + losStr);
+                list.add(temp);
+            } while (tempCursor.moveToNext());
+        }
+
     }
 }
