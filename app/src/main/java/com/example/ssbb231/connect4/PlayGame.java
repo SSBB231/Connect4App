@@ -37,7 +37,7 @@ public class PlayGame extends AppCompatActivity {
         gridview.setAdapter(imageAdapter);
         //gridview.setAdapter(new ImageAdapter(this));
 
-        Achievements achievements = new Achievements(this);
+        Achievements achievements = new Achievements();
 
         observable = new Observable();
         observable.addObserver(achievements);
