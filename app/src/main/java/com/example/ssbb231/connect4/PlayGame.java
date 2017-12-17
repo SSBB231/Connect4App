@@ -15,6 +15,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.util.Observable;
+
 public class PlayGame extends AppCompatActivity {
 
     public static final String AI = "AI";
@@ -24,6 +26,8 @@ public class PlayGame extends AppCompatActivity {
 
     private OnItemClickListener normalListener, aiListener;
 
+    public static Observable observable;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +36,11 @@ public class PlayGame extends AppCompatActivity {
         final ImageAdapter imageAdapter = new ImageAdapter(this);
         gridview.setAdapter(imageAdapter);
         //gridview.setAdapter(new ImageAdapter(this));
+
+        Achievements achievements = new Achievements(this);
+
+        observable = new Observable();
+        observable.addObserver(achievements);
 
         if(getIntent().getBooleanExtra(AI, false))
         {
