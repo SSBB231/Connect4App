@@ -1,7 +1,13 @@
 package com.example.ssbb231.connect4;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.AdapterView;
 import android.view.View;
@@ -45,6 +51,7 @@ public class PlayGame extends AppCompatActivity {
                 if(game.isOver())
                 {
                     Toast.makeText(PlayGame.this, "GAME OVER", Toast.LENGTH_SHORT).show();
+                    endGame();
                     return;
                 }
 
@@ -74,6 +81,7 @@ public class PlayGame extends AppCompatActivity {
                 if(game.isOver())
                 {
                     Toast.makeText(PlayGame.this, "GAME OVER", Toast.LENGTH_SHORT).show();
+                    endGame();
                     return;
                 }
 
@@ -88,6 +96,7 @@ public class PlayGame extends AppCompatActivity {
                     if(game.isOver())
                     {
                         Toast.makeText(PlayGame.this, "GAME OVER", Toast.LENGTH_SHORT).show();
+                        endGame();
                         return;
                     }
 
@@ -127,6 +136,7 @@ public class PlayGame extends AppCompatActivity {
                     if(game.isOver())
                     {
                         Toast.makeText(PlayGame.this, "GAME OVER", Toast.LENGTH_SHORT).show();
+                        endGame();
                         return;
                     }
                 }
@@ -142,5 +152,78 @@ public class PlayGame extends AppCompatActivity {
         {
             gridview.setOnItemClickListener(normalListener);
         }
+    }
+
+    private void endGame(){
+            AlertDialog.Builder alert = new AlertDialog.Builder(PlayGame.this);
+        boolean won = false; //check if the player won.
+        if(game.getBoard().isWin() && !game.getCurrentPlayer().isPlayer1()){
+            won = true;
+        }
+        String title = "Game Over";
+
+        if(isAI) {     //only update the leaderboard if this is an AI game
+            final EditText name = new EditText(PlayGame.this);
+            alert.setMessage("Please Input Your Username");
+            if(won){
+                title = "Congratulations, You Won!";
+            }
+            alert.setTitle(title);
+            alert.setView(name);
+
+            alert.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    //Send the username back to the Leaderboard and update their score
+                    String inputVal = name.getText().toString();
+                    Toast.makeText(PlayGame.this, inputVal, Toast.LENGTH_SHORT).show();
+                    Intent lb = new Intent(PlayGame.this, LeaderBoardActivity.class);
+                    lb.putExtra(LeaderBoardActivity.DATA, true);
+                    lb.putExtra("username", inputVal);
+                    if(game.getBoard().isWin() && !game.getCurrentPlayer().isPlayer1()) {  //Player won the game
+                        lb.putExtra("score", 1);
+                    }
+                    else{   //Player lost the game
+                        lb.putExtra("score", 0);
+                    }
+                    startActivity(lb);
+                }
+            });
+
+            alert.setNegativeButton("Cancel :(", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {  //Go to main menu without updating
+                    Toast.makeText(PlayGame.this, "Cancel", Toast.LENGTH_SHORT).show();
+                    setResult(PlayGame.RESULT_OK);
+                    finish();
+                }
+            });
+        }
+        else{   //if this is a versus game thank the player and go to the main menu
+            alert.setMessage("Thank you for playing!");
+            if(won){
+                title = "Player 1 Won";
+            }
+            else if(game.getBoard().isWin()){ //player 2 won
+                title = "Player 2 Won";
+            }
+            alert.setTitle(title);
+            alert.setPositiveButton("Play another!", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    //Send the username back to the Main menu
+                    Toast.makeText(PlayGame.this, "Playing one more!", Toast.LENGTH_SHORT).show();
+                    Intent intent = getIntent();
+                    finish();
+                    startActivity(intent);  //She aint pretty but she gets the job done
+                }
+
+            });
+
+            alert.setNegativeButton("Back to the Main Menu", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    setResult(PlayGame.RESULT_OK);
+                    finish();
+                }
+            });
+        }
+        alert.show();
     }
 }

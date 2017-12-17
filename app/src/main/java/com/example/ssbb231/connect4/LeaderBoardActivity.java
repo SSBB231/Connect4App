@@ -22,20 +22,25 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import static com.example.ssbb231.connect4.DatabaseOpenHelper.LOSS;
 import static com.example.ssbb231.connect4.DatabaseOpenHelper.TABLE_NAME;
+import static com.example.ssbb231.connect4.DatabaseOpenHelper.WINS;
 
 public class LeaderBoardActivity extends AppCompatActivity {
-    EditText elem;
-    ListView listView;
+    final static String DATA = "hasData";
+
+    private EditText elem;
+    private ListView listView;
     public SimpleCursorAdapter myAdapter;
-    AlertDialog actions;
-    int currentPos;
-    SQLiteDatabase db = null;
-    DatabaseOpenHelper dbHelper = null;
-    Cursor mCursor;
-    int exists;
-    String currentName;
-    String[] columns = new String[]{"_id", DatabaseOpenHelper.ITEM};
+    private AlertDialog actions;
+    private int currentPos, exists;
+    private SQLiteDatabase db = null;
+    private DatabaseOpenHelper dbHelper = null;
+    private Cursor mCursor;
+    private String currentName;
+    private String[] columns = new String[]{"_id", DatabaseOpenHelper.ITEM, DatabaseOpenHelper.WINS, DatabaseOpenHelper.LOSS};
+    private boolean hasData, won;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,14 +49,14 @@ public class LeaderBoardActivity extends AppCompatActivity {
         dbHelper = new DatabaseOpenHelper(this);
         db = dbHelper.getWritableDatabase();
         mCursor = db.query(TABLE_NAME, columns, null, null, null, null,
-                null);
+                WINS + " desc," + LOSS + " asc");
 
         listView = (ListView) findViewById(R.id.mylist);
 
         myAdapter = new SimpleCursorAdapter(this,
                 android.R.layout.simple_list_item_1,
                 mCursor,
-                new String[]{"item"},
+                new String[]{"item", "wins", "loss"},
                 new int[]{android.R.id.text1});
 
         listView.setAdapter(myAdapter);
@@ -62,19 +67,17 @@ public class LeaderBoardActivity extends AppCompatActivity {
                 currentPos = position;
                 mCursor.moveToPosition(currentPos);
                 String itemName = mCursor.getString(mCursor.getColumnIndex("item"));
-                //db.delete(TABLE_NAME, "item=?", new String[]{task});
-                ContentValues contentVals = new ContentValues();
+                String wins = mCursor.getString(mCursor.getColumnIndex("wins"));
+                String losses = mCursor.getString(mCursor.getColumnIndex("loss"));                //db.delete(TABLE_NAME, "item=?", new String[]{task});
 
                 //String itemNam
-                Toast.makeText(getApplicationContext(), "Item: " + itemName, Toast.LENGTH_SHORT).show();
-
+                Toast.makeText(getApplicationContext(), "Item: " + itemName + " Wins: " + wins + " Losses: " + losses, Toast.LENGTH_SHORT).show();
                 //contentVals.put(DatabaseOpenHelper.ITEM, "Done: " + task);
                 //db.insert(TABLE_NAME, null, contentVals);
                 mCursor.requery();
                 myAdapter.notifyDataSetChanged();
                 exists = 1;
                 currentName = itemName;
-                //goToExcercise(view);
             }
 
         });
@@ -89,7 +92,7 @@ public class LeaderBoardActivity extends AppCompatActivity {
                                             }
         );
 
-        elem = (EditText) findViewById(R.id.input);
+        //elem = (EditText) findViewById(R.id.input);
 
 
         AlertDialog.Builder builder = new
@@ -105,6 +108,18 @@ public class LeaderBoardActivity extends AppCompatActivity {
 
         exists = 0;
         currentName = "";
+        won = false;
+        //If there is data being passed in, update the values before displaying
+        Intent intent = getIntent();
+        if(intent.getBooleanExtra(DATA, false)) {
+            if(intent.getIntExtra("score",0) == 1){ //if the player won
+                won = true;
+            }
+            else{  //if the player lost
+                won = false;
+            }
+            doAdd(intent.getStringExtra("username"));
+        }
     }
 
     DialogInterface.OnClickListener actionListener =
@@ -139,23 +154,57 @@ public class LeaderBoardActivity extends AppCompatActivity {
         db = dbHelper.getWritableDatabase();
     }
     public void addElem(View v) {
-        String input = elem.getText().toString();
-        doAdd(input);
+        //String input = elem.getText().toString();
+        //doAdd(input);
         exists = 0;
     }
 
     private void doAdd(String input) {
         if (!input.equals("")) {
-            Toast.makeText(getApplicationContext(), "Adding " + input, Toast.LENGTH_SHORT).show();
-            // add to db
             ContentValues cv = new ContentValues(1);
-            cv.put(DatabaseOpenHelper.ITEM, input);
-
             if (db == null) db = dbHelper.getWritableDatabase();
-            db.insert(TABLE_NAME, null, cv);
-            mCursor.requery();
-            myAdapter.notifyDataSetChanged();
+            // add to db
+            if(!hasEntry(input)) {
+                Toast.makeText(getApplicationContext(), "Adding " + input, Toast.LENGTH_SHORT).show();
+                cv.put(DatabaseOpenHelper.ITEM, input);
+                if(won) {  //Update the win col
+                    cv.put(DatabaseOpenHelper.WINS, "1");
+                    cv.put(DatabaseOpenHelper.LOSS, "0");
+                }
+                else{   //Update the loss col
+                    cv.put(DatabaseOpenHelper.WINS, "0");
+                    cv.put(DatabaseOpenHelper.LOSS, "1");
+                }
 
+                db.insert(TABLE_NAME, null, cv);
+                mCursor.requery();
+                myAdapter.notifyDataSetChanged();
+            }
+            else {        //update db
+                String selectString = "SELECT * FROM " + TABLE_NAME + " WHERE " + "item=?";
+
+                // Add the String you are searching by here.
+                // Put it in an array to avoid an unrecognized token error
+                Cursor tCursor = db.rawQuery(selectString, new String[] {input});
+                if(tCursor.moveToFirst()){
+                    String winStr = tCursor.getString(tCursor.getColumnIndex("wins"));
+                    String losStr = tCursor.getString(tCursor.getColumnIndex("loss"));
+
+                    if(won) {  //Update the win col
+                        int winsVal = Integer.parseInt(winStr);
+                        cv.put(DatabaseOpenHelper.WINS, winsVal+1+"");
+                        cv.put(DatabaseOpenHelper.LOSS, losStr);
+                    }
+                    else{   //Update the loss col
+                        int lossVal = Integer.parseInt(losStr);
+                        cv.put(DatabaseOpenHelper.WINS, winStr);
+                        cv.put(DatabaseOpenHelper.LOSS, lossVal+1+"");
+                    }
+                    Toast.makeText(getApplicationContext(), "Updating " + input, Toast.LENGTH_SHORT).show();
+                    db.update(TABLE_NAME, cv, "item=?", new String[]{input});
+                }
+                tCursor.close();
+            }
         }
     }
 
@@ -174,7 +223,25 @@ public class LeaderBoardActivity extends AppCompatActivity {
      * @param view This current view
      */
     public void goToMainMenu(View view) {
-
+        mCursor.close();
+        db.close();
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
+    public boolean hasEntry(String id) {
+        String selectString = "SELECT * FROM " + TABLE_NAME + " WHERE " + "item=?";
+
+        // Add the String you are searching by here.
+        // Put it in an array to avoid an unrecognized token error
+        Cursor cursor = db.rawQuery(selectString, new String[] {id});
+        boolean hasEntry = false;
+        if(cursor.moveToFirst()){
+            hasEntry = true;
+        }
+
+        cursor.close();
+        //db.close();
+        return hasEntry;
+    }
 }
