@@ -916,7 +916,7 @@ public class Board {
                 break;
         }
 
-        if(numInARow == 4)
+        if(numInARow >= 4)
         {
             this.isWin = true;
             return true;
@@ -940,7 +940,7 @@ public class Board {
                 break;
         }
 
-        if(numInARow == 4)
+        if(numInARow >= 4)
         {
             this.isWin = true;
             return true;
@@ -964,7 +964,7 @@ public class Board {
                 break;
         }
 
-        if(numInARow == 4)
+        if(numInARow >= 4)
         {
             this.isWin = true;
             return true;
@@ -988,7 +988,7 @@ public class Board {
                 break;
         }
 
-        if(numInARow == 4)
+        if(numInARow >= 4)
         {
             this.isWin = true;
             return true;
