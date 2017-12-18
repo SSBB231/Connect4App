@@ -49,10 +49,19 @@ public class LeaderBoardActivity extends AppCompatActivity {
     private boolean hasData, won;
     private ArrayList<HashMap<String, String>> list;
 
+    public Notifier observable;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leader_board);
+
+        observable = new Notifier();
+
+        Achievements achievements = new Achievements(getApplicationContext());
+        observable.addObserver(achievements);
+
         dbHelper = new DatabaseOpenHelper(this);
         db = dbHelper.getWritableDatabase();
         mCursor = db.query(TABLE_NAME, columns, null, null, null, null,
@@ -174,9 +183,10 @@ public class LeaderBoardActivity extends AppCompatActivity {
             // add to db
             if(!hasEntry(input)) {
 
-                PlayGame.observable.notifyObservers(new NewPlayerAchievement(findViewById(R.id.clLB), "New Player "+ input + " Added to Leader Board!"));
+                observable.changed();
+                observable.notifyObservers(new NewPlayerAchievement(findViewById(R.id.clLB), "New Player "+ input + " Added to Leader Board!"));
 
-                Toast.makeText(getApplicationContext(), "Adding " + input, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), "Adding " + input, Toast.LENGTH_SHORT).show();
                 cv.put(DatabaseOpenHelper.ITEM, input);
                 if(won) {  //Update the win col
                     cv.put(DatabaseOpenHelper.WINS, "1");
