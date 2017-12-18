@@ -1,10 +1,12 @@
 package com.example.ssbb231.connect4;
 
+
+
+
 import android.content.Context;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +15,10 @@ import java.util.Observer;
 
 /**
  * Created by ssbb231 on 12/16/17.
+ *
+ * Citation:
+ * Code used to add an icon to the Snackbar inspired by StackOverflow Post on Adding Icons to Snackbars
+ * https://stackoverflow.com/questions/31285039/is-there-any-way-to-add-an-icon-to-a-snackbar
  */
 
 public class Achievements implements Observer
@@ -53,8 +59,9 @@ public class Achievements implements Observer
     {
 //        Toast.makeText(context, "Displaying Snackbar", Toast.LENGTH_SHORT).show();
         Snackbar snackbar = Snackbar.make(achievement.getView(), "   "+achievement.getMessage(), Snackbar.LENGTH_LONG);
-        View snackbarLayout = snackbar.getView();
-        TextView textView = (TextView)snackbarLayout.findViewById(android.support.design.R.id.snackbar_text);
+
+        View innerView = snackbar.getView();
+        TextView textView = (TextView)innerView.findViewById(android.support.design.R.id.snackbar_text);
         textView.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_action_star, 0, 0, 0);
         snackbar.show();
     }
