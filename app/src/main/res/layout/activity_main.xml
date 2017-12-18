@@ -11,41 +11,56 @@
         android:id="@+id/bOnePlayer"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:src="@drawable/ic_action_name"
         android:onClick="startGame"
-        app:elevation="20dp"
+        android:src="@drawable/ic_action_name"
         app:backgroundTint="#ffee58"
+        app:elevation="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/bTwoPlayer"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.501" />
+
+    <ImageView
+        android:id="@+id/title_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/title"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.016" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/bTwoPlayer"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:src="@drawable/ic_action_two"
         android:onClick="startGame"
-        app:elevation="20dp"
+        android:src="@drawable/ic_action_two"
         app:backgroundTint="#ef5350"
+        app:elevation="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/bOnePlayer"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/bOnePlayer" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/button5"
-        android:src="@drawable/ic_action_leader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
-        android:text="Button"
         android:onClick="startLeaderBoard"
+        android:src="@drawable/ic_action_leader"
+        android:text="Button"
+        app:backgroundTint="#b2ff59"
         app:elevation="10dp"
         app:fabSize="normal"
-        app:backgroundTint="#b2ff59"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -55,12 +70,12 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="16dp"
         android:layout_marginTop="16dp"
-        android:text="Button"
-        android:src="@drawable/ic_action_music"
         android:onClick="toggleMusic"
+        android:src="@drawable/ic_action_music"
+        android:text="Button"
+        app:backgroundTint="#ea80fc"
         app:elevation="10dp"
         app:fabSize="normal"
-        app:backgroundTint="#ea80fc"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>
